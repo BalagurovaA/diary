@@ -2,10 +2,14 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
+    //для примера в таблицу
+    var hours: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
     
-    var nums: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    var allTasks: [Task] = []
+    var tasks: [Task] = []
+    var selectedDate: Date?
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -36,8 +40,8 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
-            calendarView.heightAnchor.constraint(equalToConstant: 300)
+            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            calendarView.heightAnchor.constraint(equalToConstant: 400)
         ])
         
     }
@@ -58,11 +62,24 @@ class ViewController: UIViewController {
         tableView.reloadData()
 
     }
+    
+    
+    
+    private func updateTaskForSelectedDate() {
+        tasks = allTasks.filter { Calendar.current.isDate($0.date_start, inSameDayAs: selectedDate!) }
+        //!!!!!!!!!??!?!?!?!?!?!?!?!?!?!?!?!?!
+        //!>!>!>!>!>!>>!>!>!
+        
+    }
 }
 
 //это расширение для выбора дат и отмены выбора дат
 extension ViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDelegate {
     func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
+        if let date = Calendar.current.date(from: dateComponents) {
+            selectedDate = date
+        }
+        
         
     }
     
@@ -78,12 +95,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nums.count
+        return hours.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath)
-        cell.textLabel?.text = String(nums[indexPath.row])
+        cell.textLabel?.text = String(hours[indexPath.row])
         return cell
     }
 }
