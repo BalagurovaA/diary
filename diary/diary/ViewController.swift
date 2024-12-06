@@ -2,17 +2,20 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
+    
     var nums: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTable()
         tableView.delegate = self
         tableView.dataSource = self
-//        configureCalendar()
+        configureCalendar()
+        configureTable()
+
     }
     
+    //КАЛЕНДАРЬ
     private func configureCalendar() {
         let calendarView = UICalendarView()
         calendarView.calendar = .current
@@ -20,7 +23,7 @@ class ViewController: UIViewController {
         
         calendarView.visibleDateComponents = DateComponents(calendar: .current, year: 2024, month: 12)
         calendarView.fontDesign = .rounded
-        calendarView.backgroundColor = .systemGray2
+        calendarView.backgroundColor = .systemGray5
         calendarView.layer.cornerRadius = 12
         
         let dateSelection = UICalendarSelectionMultiDate(delegate: self)
@@ -33,24 +36,26 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
             calendarView.heightAnchor.constraint(equalToConstant: 300)
         ])
         
     }
     
+    //ТАБЛИЦА
     private func configureTable() {
-       let tableView = UITableView()
+
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        
         
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 310),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 370),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        tableView.reloadData()
 
     }
 }
@@ -67,22 +72,15 @@ extension ViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDe
     
 }
 
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("you tapped me")
-    }
-}
-
-extension ViewController: UITableViewDataSource {
-    
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return nums.count
     }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath)
         cell.textLabel?.text = String(nums[indexPath.row])
