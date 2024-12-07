@@ -23,6 +23,15 @@ class ViewController: UIViewController {
 
     }
     
+    //работа с кнопкой
+    @IBAction func createTask(_ sender: Any) {
+        let taskController = TaskController()
+        taskController.modalPresentationStyle = .fullScreen
+        present(taskController, animated: true, completion: nil)
+               
+    }
+    
+ 
     //временной интервал
     private func configTimeSlots() {
         for hour in 0..<24 {

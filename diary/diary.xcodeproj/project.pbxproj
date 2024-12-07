@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		781AC19C2D04A6BE00588913 /* TaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781AC19B2D04A6BE00588913 /* TaskController.swift */; };
 		78CCB87C2D03629D00CE0A41 /* tasksStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB87B2D03629D00CE0A41 /* tasksStruct.swift */; };
 		FD39506E2CFC80BC0039D3FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD39506D2CFC80BC0039D3FA /* AppDelegate.swift */; };
 		FD3950702CFC80BC0039D3FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD39506F2CFC80BC0039D3FA /* SceneDelegate.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		781AC19B2D04A6BE00588913 /* TaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskController.swift; sourceTree = "<group>"; };
 		78CCB87B2D03629D00CE0A41 /* tasksStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tasksStruct.swift; sourceTree = "<group>"; };
 		FD39506A2CFC80BC0039D3FA /* diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD39506D2CFC80BC0039D3FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				FD39506D2CFC80BC0039D3FA /* AppDelegate.swift */,
 				FD39506F2CFC80BC0039D3FA /* SceneDelegate.swift */,
 				FD3950712CFC80BC0039D3FA /* ViewController.swift */,
+				781AC19B2D04A6BE00588913 /* TaskController.swift */,
 				78CCB87B2D03629D00CE0A41 /* tasksStruct.swift */,
 				FD3950732CFC80BC0039D3FA /* Main.storyboard */,
 				FD3950762CFC80BE0039D3FA /* Assets.xcassets */,
@@ -264,6 +267,7 @@
 				FD3950722CFC80BC0039D3FA /* ViewController.swift in Sources */,
 				FD39506E2CFC80BC0039D3FA /* AppDelegate.swift in Sources */,
 				FD3950702CFC80BC0039D3FA /* SceneDelegate.swift in Sources */,
+				781AC19C2D04A6BE00588913 /* TaskController.swift in Sources */,
 				78CCB87C2D03629D00CE0A41 /* tasksStruct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
