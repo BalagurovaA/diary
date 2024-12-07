@@ -3,10 +3,11 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     //для примера в таблицу
-    var hours: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    
     
     var allTasks: [Task] = []
     var tasks: [Task] = []
+    var timeSlots: [String] = []
     var selectedDate: Date?
     
 
@@ -14,10 +15,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
         configureCalendar()
         configureTable()
+        configTimeSlots()
 
     }
+    //временной интервал
+    private func configTimeSlots() {
+        for hour in 0..<24 {
+            let startHour = String(format: "%02d:00", hour)
+            let finishHour = String(format: "%02d:00", (hour + 1) % 24)
+            timeSlots.append("\(startHour) - \(finishHour)")
+        }
+    }
+    
+    
+    
+    
+
     
     //КАЛЕНДАРЬ
     private func configureCalendar() {
@@ -67,8 +83,7 @@ class ViewController: UIViewController {
     
     private func updateTaskForSelectedDate() {
         tasks = allTasks.filter { Calendar.current.isDate($0.date_start, inSameDayAs: selectedDate!) }
-        //!!!!!!!!!??!?!?!?!?!?!?!?!?!?!?!?!?!
-        //!>!>!>!>!>!>>!>!>!
+        tableView.reloadData()
         
     }
 }
@@ -78,6 +93,7 @@ extension ViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDe
     func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
         if let date = Calendar.current.date(from: dateComponents) {
             selectedDate = date
+            updateTaskForSelectedDate()
         }
         
         
@@ -95,12 +111,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return hours.count
+        return timeSlots.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath)
-        cell.textLabel?.text = String(hours[indexPath.row])
+        
+        let timeSlot = timeSlots[indexPath.row]
+        cell.textLabel?.text = timeSlot
+        
+        
         return cell
     }
 }
+
+
