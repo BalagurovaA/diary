@@ -2,9 +2,9 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
-    //для примера в таблицу
     
-    
+    //инициаллизация
+
     var allTasks: [Task] = []
     var tasks: [Task] = []
     var timeSlots: [String] = []
@@ -13,6 +13,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -21,6 +22,7 @@ class ViewController: UIViewController {
         configTimeSlots()
 
     }
+    
     //временной интервал
     private func configTimeSlots() {
         for hour in 0..<24 {
@@ -29,9 +31,6 @@ class ViewController: UIViewController {
             timeSlots.append("\(startHour) - \(finishHour)")
         }
     }
-    
-    
-    
     
 
     
@@ -49,15 +48,14 @@ class ViewController: UIViewController {
         let dateSelection = UICalendarSelectionMultiDate(delegate: self)
         calendarView.selectionBehavior = dateSelection
         calendarView.delegate = self
-        
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(calendarView)
         
         NSLayoutConstraint.activate([
             calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            calendarView.heightAnchor.constraint(equalToConstant: 400)
+            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            calendarView.heightAnchor.constraint(equalToConstant: 370)
         ])
         
     }
@@ -71,18 +69,19 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 370),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 450),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75)
         ])
         
         tableView.reloadData()
 
     }
     
-    
-    
+
     private func updateTaskForSelectedDate() {
-        tasks = allTasks.filter { Calendar.current.isDate($0.date_start, inSameDayAs: selectedDate!) }
+        guard let selectedDate = selectedDate else { return }
+        
+        tasks = allTasks.filter { Calendar.current.isDate($0.date_start, inSameDayAs: selectedDate) }
         tableView.reloadData()
         
     }
@@ -101,6 +100,7 @@ extension ViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDe
     
     func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didDeselectDate dateComponents: DateComponents) {
         
+        
     }
     
 }
@@ -116,6 +116,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath)
+        
+        if indexPath.row < tasks.count {
+            let task = tasks[indexPath.row]
+//            cell.textLabel?.text.DateFormatter.localizedString(from: task.date_start, dateStyle: .short, timeStyle: .short)
+        }
+        
+        
+        
+        
         
         let timeSlot = timeSlots[indexPath.row]
         cell.textLabel?.text = timeSlot
