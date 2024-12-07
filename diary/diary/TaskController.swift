@@ -12,6 +12,7 @@ class TaskController: UIViewController {
     
     let buttonExit = UIButton(type: .system)
     let buttonSave = UIButton(type: .system)
+    let nameText = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +21,12 @@ class TaskController: UIViewController {
         configureExitButton()
         configureSaveButton()
         
-       
   
-     
-        
+       
+
     }
     
-    
+    //кнопка выход
     private func configureExitButton() {
         buttonExit.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonExit)
@@ -38,6 +38,7 @@ class TaskController: UIViewController {
         
     }
     
+    //кнопка сохранения
     private func configureSaveButton() {
         buttonSave.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonSave)
@@ -46,6 +47,13 @@ class TaskController: UIViewController {
         buttonSave.setTitle("Save", for: .normal)
         
         buttonSave.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)
+    }
+    
+    //название заметки
+    private func configureNameTask() {
+        
+        
+        
     }
     
     
