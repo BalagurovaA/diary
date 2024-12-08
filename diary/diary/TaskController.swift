@@ -32,8 +32,6 @@ class TaskController: UIViewController, UITextViewDelegate {
         configureEndStart()
         configureDescription()
         
-  
-        
     }
     
     //кнопка выход
@@ -169,27 +167,4 @@ class TaskController: UIViewController, UITextViewDelegate {
        
         
     }
-    
-
-        
-//    private func configureNameTask() {
-//        view.addSubview(nameText)
-//        nameText.backgroundColor = UIColor.white
-//        nameText.layer.cornerRadius = 12
-//        nameText.font = .systemFont(ofSize: 14)
-//        nameText.delegate = self
-//        setUpPlaceHoldText()
-//
-//        
-//        nameText.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            nameText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-//            nameText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-//            nameText.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-//            nameText.heightAnchor.constraint(equalToConstant: 50)
-//        ])
-//       
-//
-//    }
-//    
 }
