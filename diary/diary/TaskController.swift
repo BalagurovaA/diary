@@ -129,6 +129,7 @@ class TaskController: UIViewController, UITextViewDelegate {
         
     }
     
+    //дата финиша
     private func configureEndStart() {
         labelEnd.text = "Finish"
         labelEnd.textColor = .black
@@ -150,7 +151,7 @@ class TaskController: UIViewController, UITextViewDelegate {
         
     
     }
-    
+    //описание задачи
     private func configureDescription() {
         descriptionText.backgroundColor = UIColor.white
         descriptionText.layer.cornerRadius = 12

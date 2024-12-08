@@ -62,6 +62,9 @@ class ViewController: UIViewController {
                
     }
     
+    
+
+    
  
     //временной интервал
     private func configTimeSlots() {
@@ -166,10 +169,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
      } else {
        cell.textLabel?.text = "\(timeSlot)"
        }
-   
-        
-        
-        
 
         return cell
     }
@@ -177,6 +176,51 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let hour = indexPath.row
+        let timeSlot = timeSlots[indexPath.row]
+        
+        guard let validSelectedDate = selectedDate else {
+            print("selectedDate is nil")
+            return
+      }
+        let startDate = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: selectedDate!)
+        guard let validStartDate = startDate else {
+            print("startDate could not be calculated")
+       return
+        }
+           
+        let selectedTask = tasks.filter { task in
+            guard let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: validStartDate) else {
+                return false // Если по какой-то причине endDate не может быть рассчитана, фильтруем задачу
+            }
+            return task.date_start >= validStartDate && task.date_start < endDate
+        }.first
+
+            
+ 
+        
+        let taskController = TaskController()
+        if let task = selectedTask {
+            taskController.nameText.text = task.name
+            taskController.descriptionText.text = task.description
+            taskController.startDate.date = task.date_start
+            taskController.finishDate.date = task.date_finish
+        }
+        else {
+            taskController.nameText.text = " "
+            taskController.descriptionText.text = " "
+            taskController.startDate.date = Date()
+            taskController.finishDate.date = Date()
+        }
+        
+        taskController.modalPresentationStyle = .fullScreen
+        present(taskController,animated: true, completion: nil)
+        
+    }
+  
     
     
     
