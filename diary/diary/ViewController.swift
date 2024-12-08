@@ -9,6 +9,7 @@ class ViewController: UIViewController {
     var tasks: [Task] = []
     var timeSlots: [String] = []
     var selectedDate: Date?
+    let calendar = UIDatePicker()
     
 
     override func viewDidLoad() {
@@ -42,29 +43,18 @@ class ViewController: UIViewController {
     }
     
 
-    
     //КАЛЕНДАРЬ
     private func configureCalendar() {
-        let calendarView = UICalendarView()
-        calendarView.calendar = .current
-        calendarView.locale = .current
-        
-        calendarView.visibleDateComponents = DateComponents(calendar: .current, year: 2024, month: 12)
-        calendarView.fontDesign = .rounded
-        calendarView.backgroundColor = .systemGray5
-        calendarView.layer.cornerRadius = 12
-        
-        let dateSelection = UICalendarSelectionMultiDate(delegate: self)
-        calendarView.selectionBehavior = dateSelection
-        calendarView.delegate = self
-        calendarView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(calendarView)
-        
+        calendar.locale = .current
+        calendar.datePickerMode = .date
+        calendar.preferredDatePickerStyle = .inline
+        calendar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(calendar)
         NSLayoutConstraint.activate([
-            calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendarView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            calendarView.heightAnchor.constraint(equalToConstant: 370)
+            calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),   // Слева
+            calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16), // Справа
+            calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor), // Сверху
+            calendar.heightAnchor.constraint(equalToConstant: 350) // Задайте фиксированную высоту, если это необходимо
         ])
         
     }
@@ -78,7 +68,7 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 450),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 400),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75)
         ])
         
@@ -96,23 +86,6 @@ class ViewController: UIViewController {
     }
 }
 
-//это расширение для выбора дат и отмены выбора дат
-extension ViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDelegate {
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
-        if let date = Calendar.current.date(from: dateComponents) {
-            selectedDate = date
-            updateTaskForSelectedDate()
-        }
-        
-        
-    }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didDeselectDate dateComponents: DateComponents) {
-        
-        
-    }
-    
-}
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
