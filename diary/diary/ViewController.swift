@@ -134,10 +134,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         
-        
         let timeSlot = timeSlots[indexPath.row]
-        cell.textLabel?.text = timeSlot
         
+        cell.textLabel?.font = cell.textLabel?.font.withSize(12)
+        cell.textLabel?.text = timeSlot
         
         return cell
     }

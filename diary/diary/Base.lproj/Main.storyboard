@@ -37,7 +37,7 @@
                                 <items>
                                     <barButtonItem image="plus" catalog="system" style="plain" id="zhE-mI-rwR">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="JCp-bM-PlS">
-                                            <rect key="frame" x="16" y="5" width="361" height="34.333333333333336"/>
+                                            <rect key="frame" x="16" y="0.0" width="361" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
