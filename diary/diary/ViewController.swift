@@ -176,6 +176,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 100.0
     }
     
+//    выбор ячейки, открытие task controller
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let hour = indexPath.row
@@ -193,36 +194,46 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return task.date_start >= validStartDate && task.date_start < endDate
         }.first
 
-            
- 
         
         let taskController = TaskController()
-        if let task = selectedTask {
-            taskController.nameText.text = task.name
-            taskController.descriptionText.text = task.description
-            taskController.startDate.date = task.date_start
-            taskController.finishDate.date = task.date_finish
-        }
-        else {
-            taskController.nameText.text = " "
-            taskController.descriptionText.text = " "
-            taskController.startDate.date = Date()
-            taskController.finishDate.date = Date()
-        }
+        taskController.selectedTask = selectedTask
+
         
         taskController.modalPresentationStyle = .fullScreen
         present(taskController,animated: true, completion: nil)
-        
-    }
   
-    
-    
+    }
+ 
     
 }
 
 extension ViewController: TaskControllerDelegate {
-    func addNewTask(_ viewContr: TaskController, newTask: Task) {
-        allTasks.append(newTask)
+    func addNewTask(_ viewContr: TaskController, newTask: Task, extistingTask: Task?) {
+        
+        if let extistingTask = extistingTask {
+            if let index = allTasks.firstIndex(where: { $0.id == extistingTask.id}) {
+                allTasks[index] = newTask
+            }
+        } else {
+            allTasks.append(newTask)
+        }
         updateTaskForSelectedDate()
     }
 }
+
+
+
+//extension ViewController: TaskControllerDelegate {
+//    func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?) {
+//        if let existingTask = existingTask {
+//            // Обновляем существующую задачу
+//            if let index = allTasks.firstIndex(where: { $0.id == existingTask.id }) { // предположим, у вас есть уникальный идентификатор у задачи
+//                allTasks[index] = newTask // заменяем существующую задачу на обновленную
+//            }
+//        } else {
+//            // Добавляем новую задачу
+//            allTasks.append(newTask)
+//        }
+//        updateTaskForSelectedDate()
+//    }
+//}

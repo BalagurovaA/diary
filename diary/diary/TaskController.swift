@@ -3,13 +3,14 @@ import UIKit
 
 
 protocol TaskControllerDelegate: AnyObject {
-    func addNewTask(_ viewContr: TaskController, newTask: Task)
+    func addNewTask(_ viewContr: TaskController, newTask: Task, extistingTask: Task?)
 }
 
 
 class TaskController: UIViewController {
     
     weak var taskControllerDelegate: TaskControllerDelegate?
+    var selectedTask: Task?
     
     //buttons
     let buttonExit = UIButton(type: .system)
@@ -33,7 +34,7 @@ class TaskController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .systemGray6
         configureExitButton()
         configureSaveButton()
@@ -41,7 +42,26 @@ class TaskController: UIViewController {
         configureDateStart()
         configureEndStart()
         configureDescription()
+        transferTask()
+
     }
+    
+    //передача задачи в task controller
+    func transferTask() {
+        if let task = selectedTask {
+             nameText.text = task.name
+             descriptionText.text = task.description
+             startDate.date = task.date_start
+             finishDate.date = task.date_finish
+         }
+         else {
+             nameText.text = " "
+             descriptionText.text = " "
+             startDate.date = Date()
+             finishDate.date = Date()
+         }
+    }
+    
     
     //кнопка выход
     private func configureExitButton() {
@@ -73,14 +93,26 @@ class TaskController: UIViewController {
     
     //функция сохранения заметки
     @objc private func savingNewTask() {
-        let savingTaskName = nameText.text ?? ""
-        let savingStartTime = startDate.date
-        let savingFinishDate = finishDate.date
-        let savingDescr = descriptionText.text ?? ""
+        if selectedTask != nil {
+            selectedTask?.name = nameText.text ?? ""
+            selectedTask?.date_start = startDate.date
+            selectedTask?.date_finish = finishDate.date
+            selectedTask?.description = descriptionText.text ?? ""
+            
+        } else {
+            let savingTaskName = nameText.text ?? ""
+            let savingStartTime = startDate.date
+            let savingFinishDate = finishDate.date
+            let savingDescr = descriptionText.text ?? ""
+            let newSavingtask = Task(id: 20, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
+        
+            taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, extistingTask: selectedTask)
+            
+        }
+        
+        
 
-        let newSavingtask = Task(id: 20, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
-    
-        taskControllerDelegate?.addNewTask(self, newTask: newSavingtask)
+ 
         dismiss(animated: true, completion: nil)
     }
     
@@ -108,10 +140,8 @@ class TaskController: UIViewController {
             nameText.topAnchor.constraint(equalTo: view.topAnchor, constant: 125),
             nameText.heightAnchor.constraint(equalToConstant: 50)
         ])
-       
 
     }
-    
 
     // дата старта
     private func configureDateStart() {
