@@ -25,7 +25,6 @@ class ViewController: UIViewController {
         configTimeSlots()
         createSampleTasks()
    
-
     }
     
    private func createSampleTasks() {
@@ -51,15 +50,16 @@ class ViewController: UIViewController {
            let task3 = Task(id: 3, date_start: dateStart3, date_finish: dateFinish3, name: "Задача 3", description: "Описание задачи 3")
              allTasks.append(task3)
        }
+      
    }
 
     
-    //работа с кнопкой
+    //работа с кнопкой плюс
     @IBAction func createTask(_ sender: Any) {
         let taskController = TaskController()
+        taskController.taskControllerDelegate = self
         taskController.modalPresentationStyle = .fullScreen
         present(taskController, animated: true, completion: nil)
-               
     }
     
     
@@ -102,7 +102,6 @@ class ViewController: UIViewController {
     //ТАБЛИЦА
     private func configureTable() {
         
-    
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
@@ -180,18 +179,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let hour = indexPath.row
-        let timeSlot = timeSlots[indexPath.row]
         
-        guard let validSelectedDate = selectedDate else {
-            print("selectedDate is nil")
-            return
-      }
         let startDate = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: selectedDate!)
         guard let validStartDate = startDate else {
             print("startDate could not be calculated")
        return
         }
-           
+
         let selectedTask = tasks.filter { task in
             guard let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: validStartDate) else {
                 return false // Если по какой-то причине endDate не может быть рассчитана, фильтруем задачу
@@ -224,10 +218,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     
-
-
-    
-    
 }
 
-
+extension ViewController: TaskControllerDelegate {
+    func addNewTask(_ viewContr: TaskController, newTask: Task) {
+        allTasks.append(newTask)
+        updateTaskForSelectedDate()
+    }
+}

@@ -1,26 +1,34 @@
-//
-//  TaskController.swift
-//  diary
-//
-//  Created by bocal on 12/7/24.
-//
-
 import Foundation
 import UIKit
 
+
+protocol TaskControllerDelegate: AnyObject {
+    func addNewTask(_ viewContr: TaskController, newTask: Task)
+}
+
+
 class TaskController: UIViewController {
     
+    weak var taskControllerDelegate: TaskControllerDelegate?
+    
+    //buttons
     let buttonExit = UIButton(type: .system)
     let buttonSave = UIButton(type: .system)
+    
+    //texts
     let nameText = UITextView()
-    let placeholderText = "task name"
+    let descriptionText = UITextView()
+
+    //Date Pickers
     let startDate = UIDatePicker()
     let finishDate = UIDatePicker()
+    
+    //Labels
     let labelStart = UILabel()
     let labelEnd = UILabel()
-    let descriptionText = UITextView()
     let labelName = UILabel()
     let labelDescr = UILabel()
+    
     
 
     override func viewDidLoad() {
@@ -60,8 +68,26 @@ class TaskController: UIViewController {
         buttonSave.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         buttonSave.setTitle("Save", for: .normal)
         
-        buttonSave.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)          //заменить здесь на функцию сохранения заметки
+        buttonSave.addTarget(self, action: #selector(savingNewTask), for: .touchUpInside)          //заменить здесь на функцию сохранения заметки
     }
+    
+    //функция сохранения заметки
+    @objc private func savingNewTask() {
+        let savingTaskName = nameText.text ?? ""
+        let savingStartTime = startDate.date
+        let savingFinishDate = finishDate.date
+        let savingDescr = descriptionText.text ?? ""
+
+        let newSavingtask = Task(id: 20, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
+    
+        taskControllerDelegate?.addNewTask(self, newTask: newSavingtask)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    
     
     //название задачи
     private func configureNameTask() {
@@ -109,8 +135,10 @@ class TaskController: UIViewController {
             startDate.heightAnchor.constraint(equalToConstant: 50)
         ])
         
+        startDate.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
     }
-    
+
+
     //дата финиша
     private func configureEndStart() {
         labelEnd.text = "Finish"
@@ -130,9 +158,22 @@ class TaskController: UIViewController {
             finishDate.topAnchor.constraint(equalTo: view.topAnchor, constant: 230),  // Сверху
             finishDate.heightAnchor.constraint(equalToConstant: 50) //фикс высота
         ])
-        
+        finishDate.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
     
     }
+    
+    //сброс минут на 00
+    @objc private func dateChanged(_ sender: UIDatePicker) {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour], from: sender.date)
+        
+        if let roundedDate = calendar.date(from: components) {
+            sender.setDate(roundedDate, animated: true)
+        }
+    }
+
+    
+    
     //описание задачи
     private func configureDescription() {
         labelDescr.text = "Description"
