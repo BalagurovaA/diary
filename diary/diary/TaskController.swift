@@ -5,6 +5,7 @@ import UIKit
 protocol TaskControllerDelegate: AnyObject {
     func addNewTask(_ viewContr: TaskController, newTask: Task, extistingTask: Task?)
     func getAllTasksCount() -> Int
+    func deleteTask(_ viewContr: TaskController, task: Task)
 }
 
 
@@ -16,6 +17,7 @@ class TaskController: UIViewController {
     //buttons
     let buttonExit = UIButton(type: .system)
     let buttonSave = UIButton(type: .system)
+    let buttonDelete = UIButton(type: .system)
     
     //texts
     let nameText = UITextView()
@@ -39,6 +41,7 @@ class TaskController: UIViewController {
         view.backgroundColor = .systemGray6
         configureExitButton()
         configureSaveButton()
+        configureDeleteTask()
         configureNameTask()
         configureDateStart()
         configureEndStart()
@@ -98,10 +101,9 @@ class TaskController: UIViewController {
     //функция сохранения заметки
     @objc private func savingNewTask() {
         
-        
         if selectedTask != nil {
 
-            
+
             selectedTask?.name = nameText.text ?? ""
             selectedTask?.date_start = startDate.date
             selectedTask?.date_finish = finishDate.date
@@ -120,23 +122,29 @@ class TaskController: UIViewController {
             let savingNewId = (taskControllerDelegate?.getAllTasksCount() ?? 00) + 1
             
             let newSavingtask = Task(id: savingNewId, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
-        
-            
-            
-            
-    
             taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, extistingTask: nil)
             
         }
-        
- 
-        
-        
 
- 
         dismiss(animated: true, completion: nil)
     }
-
+    
+    //удаление задачи
+    private func configureDeleteTask() {
+        buttonDelete.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(buttonDelete)
+        buttonDelete.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 330).isActive = true
+        buttonDelete.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 730).isActive = true
+        buttonDelete.setTitle("Delete", for: .normal)
+        
+        
+        //проверить на nil
+        if selectedTask != nil {
+            taskControllerDelegate?.deleteTask(self, task: selectedTask!)
+        }
+        
+        buttonDelete.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)
+    }
 
 
 
@@ -247,7 +255,7 @@ class TaskController: UIViewController {
             descriptionText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             descriptionText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             descriptionText.topAnchor.constraint(equalTo: view.topAnchor, constant: 320),
-            descriptionText.heightAnchor.constraint(equalToConstant: 500)
+            descriptionText.heightAnchor.constraint(equalToConstant: 450)
         ])
        
         

@@ -227,6 +227,16 @@ extension ViewController: TaskControllerDelegate {
     func getAllTasksCount() -> Int {
         return allTasks.count
     }
+    
+    func deleteTask(_ viewContr: TaskController, task: Task) {
+        if let index = allTasks.firstIndex(where: {$0.id == task.id}) {
+            allTasks.remove(at: index)
+            updateTaskForSelectedDate()
+            print(allTasks)
+        }
+        
+    }
+    
 }
 
 
