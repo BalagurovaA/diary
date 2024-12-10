@@ -93,7 +93,15 @@ class TaskController: UIViewController {
         buttonSave.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         buttonSave.setTitle("Save", for: .normal)
         
+        buttonSave.isEnabled = false
         buttonSave.addTarget(self, action: #selector(savingNewTask), for: .touchUpInside)          //заменить здесь на функцию сохранения заметки
+    }
+    private func updateSaveButtonState() {
+        if startDate.date < finishDate.date {
+            buttonSave.isEnabled = true
+        } else {
+            buttonSave.isEnabled = false
+        }
     }
     
 
@@ -235,6 +243,7 @@ class TaskController: UIViewController {
         if let roundedDate = calendar.date(from: components) {
             sender.setDate(roundedDate, animated: true)
         }
+        updateSaveButtonState()
     }
 
     
