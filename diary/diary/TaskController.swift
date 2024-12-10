@@ -4,6 +4,7 @@ import UIKit
 
 protocol TaskControllerDelegate: AnyObject {
     func addNewTask(_ viewContr: TaskController, newTask: Task, extistingTask: Task?)
+    func getAllTasksCount() -> Int
 }
 
 
@@ -55,6 +56,7 @@ class TaskController: UIViewController {
              finishDate.date = task.date_finish
          }
          else {
+            
              nameText.text = " "
              descriptionText.text = " "
              startDate.date = Date()
@@ -91,30 +93,55 @@ class TaskController: UIViewController {
         buttonSave.addTarget(self, action: #selector(savingNewTask), for: .touchUpInside)          //заменить здесь на функцию сохранения заметки
     }
     
+
+    
     //функция сохранения заметки
     @objc private func savingNewTask() {
+        
+        
         if selectedTask != nil {
+
+            
             selectedTask?.name = nameText.text ?? ""
             selectedTask?.date_start = startDate.date
             selectedTask?.date_finish = finishDate.date
             selectedTask?.description = descriptionText.text ?? ""
+           
+            taskControllerDelegate?.addNewTask(self, newTask: selectedTask!, extistingTask: selectedTask)
+
+
             
         } else {
+           
             let savingTaskName = nameText.text ?? ""
             let savingStartTime = startDate.date
             let savingFinishDate = finishDate.date
             let savingDescr = descriptionText.text ?? ""
-            let newSavingtask = Task(id: 20, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
+            let savingNewId = (taskControllerDelegate?.getAllTasksCount() ?? 00) + 1
+            
+            let newSavingtask = Task(id: savingNewId, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
         
-            taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, extistingTask: selectedTask)
+            
+            
+            
+    
+            taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, extistingTask: nil)
             
         }
+        
+ 
         
         
 
  
         dismiss(animated: true, completion: nil)
     }
+
+
+
+
+    
+    
     
     
     
