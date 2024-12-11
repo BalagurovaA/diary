@@ -1,9 +1,8 @@
 import Foundation
 import UIKit
 
-
 protocol TaskControllerDelegate: AnyObject {
-    func addNewTask(_ viewContr: TaskController, newTask: Task, extistingTask: Task?)
+    func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?)
     func getAllTasksCount() -> Int
     func deleteTask(_ viewContr: TaskController, task: Task)
 }
@@ -44,7 +43,7 @@ class TaskController: UIViewController {
         configureDeleteTask()
         configureNameTask()
         configureDateStart()
-        configureEndStart()
+        configureFinish()
         configureDescription()
         transferTask()
 
@@ -65,6 +64,7 @@ class TaskController: UIViewController {
              startDate.date = Date()
              finishDate.date = Date()
          }
+        updateSaveButtonState()
     }
     
     
@@ -75,7 +75,6 @@ class TaskController: UIViewController {
         buttonExit.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         buttonExit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         buttonExit.setTitle("Exit", for: .normal)
-        
         buttonExit.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)
         
     }
@@ -94,8 +93,9 @@ class TaskController: UIViewController {
         buttonSave.setTitle("Save", for: .normal)
         
         buttonSave.isEnabled = false
-        buttonSave.addTarget(self, action: #selector(savingNewTask), for: .touchUpInside)          //заменить здесь на функцию сохранения заметки
+        buttonSave.addTarget(self, action: #selector(savingTask), for: .touchUpInside)
     }
+    
     private func updateSaveButtonState() {
         if startDate.date < finishDate.date {
             buttonSave.isEnabled = true
@@ -107,20 +107,16 @@ class TaskController: UIViewController {
 
     
     //функция сохранения заметки
-    @objc private func savingNewTask() {
+    @objc private func savingTask() {
         
         if selectedTask != nil {
-
-
             selectedTask?.name = nameText.text ?? ""
             selectedTask?.date_start = startDate.date
             selectedTask?.date_finish = finishDate.date
             selectedTask?.description = descriptionText.text ?? ""
-           
-            taskControllerDelegate?.addNewTask(self, newTask: selectedTask!, extistingTask: selectedTask)
-
-
-            
+    
+            taskControllerDelegate?.addNewTask(self, newTask: selectedTask!, existingTask: selectedTask)
+    
         } else {
            
             let savingTaskName = nameText.text ?? ""
@@ -130,7 +126,8 @@ class TaskController: UIViewController {
             let savingNewId = (taskControllerDelegate?.getAllTasksCount() ?? 00) + 1
             
             let newSavingtask = Task(id: savingNewId, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
-            taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, extistingTask: nil)
+            
+            taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, existingTask: nil)
             
         }
 
@@ -150,18 +147,9 @@ class TaskController: UIViewController {
         if selectedTask != nil {
             taskControllerDelegate?.deleteTask(self, task: selectedTask!)
         }
-        
         buttonDelete.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)
     }
 
-
-
-    
-    
-    
-    
-    
-    
     
     
     //название задачи
@@ -194,7 +182,6 @@ class TaskController: UIViewController {
         labelStart.frame = CGRect(x: 25, y: 180, width: 280, height: 50)
         view.addSubview(labelStart)
         
-        
         startDate.locale = .current
         startDate.datePickerMode = .dateAndTime
         startDate.preferredDatePickerStyle = .compact
@@ -213,7 +200,7 @@ class TaskController: UIViewController {
 
 
     //дата финиша
-    private func configureEndStart() {
+    private func configureFinish() {
         labelEnd.text = "Finish"
         labelEnd.textColor = .black
         labelEnd.frame = CGRect(x: 25, y: 230, width: 280, height: 50)

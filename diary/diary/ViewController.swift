@@ -5,27 +5,40 @@ class ViewController: UIViewController {
     
     //инициаллизация
     var taskService = TaskServise()
-    
 //    var allTasks: [Task] = []
     var tasks: [Task] = []
     private var timeSlots: [String] = []
     var selectedDate: Date?
     private let calendar = UIDatePicker()
     
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
+        createSampleTasks()
         configureCalendar()
         configureTable()
         configTimeSlots()
-   
+        
     }
+    
+    
+    private func createSampleTasks() {
+        // Установка форматирования даты
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        // Создание задач для 9 декабря
+        if let dateStart1 = dateFormatter.date(from: "2024-12-11 01:00"),
+           let dateFinish1 = dateFormatter.date(from: "2024-12-11 02:00") {
+            let task1 = Task(id: 1, date_start: dateStart1, date_finish: dateFinish1, name: "Задача 1", description: "Полотно отличается не только большой красочностью, но и разнообразием техники. Работая над картиной в несколько приёмов, Левитан делал неоднократные повторные прописки по сухому. Применение лессировок и полулессировок по белому грунту усиливает чистоту и интенсивность голубого тона неба. На большей части поверхности полотна красочный слой относительно тонок, так что видна структура холста. При этом по контрасту заметно выделяются массивные светлые корпусные прописки парохода, лодки и отдельных частей барж, а также мачт, чаек и облаков. Для повышения интенсивности цветов художник использовал киноварь и оранжевый кадмий. Рябь на воде передана чёткими мазками синего и лиловатого цветов на общем голубом фоне, а для отражения ярких цветов барж использованы красные, оранжевые, белые и синие мазки")
+            taskService.addTask(task1)
+//            allTasks.append(task1)
+        }
+        
+    }
+    
     
     //работа с кнопкой плюс
     @IBAction func createTask(_ sender: Any) {
@@ -60,7 +73,6 @@ class ViewController: UIViewController {
             calendar.heightAnchor.constraint(equalToConstant: 350) // Задайте фиксированную высоту, если это необходимо
         ])
         calendar.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
-        
     }
     
     //передаю новую дату
@@ -69,9 +81,16 @@ class ViewController: UIViewController {
         updateTaskForSelectedDate()
     }
     
+    private func updateTaskForSelectedDate() {
+        guard let selectedDate = selectedDate else { return }
+        
+        tasks = taskService.getTaskWithSpecificDate(selectedDate)
+//        tasks = allTasks.filter { Calendar.current.isDate($0.date_start, inSameDayAs: selectedDate) }
+        tableView.reloadData()
+    }
+    
     //ТАБЛИЦА
     private func configureTable() {
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
@@ -83,15 +102,7 @@ class ViewController: UIViewController {
         ])
         tableView.reloadData()
     }
-    
-
-    private func updateTaskForSelectedDate() {
-        guard let selectedDate = selectedDate else { return }
-        
-        tasks = taskService.getTaskWithSpecificDate(selectedDate)
-        tableView.reloadData()
-
-    }
+   
 }
 
 
@@ -120,7 +131,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let timeSlot = timeSlots[indexPath.row]
         
         let hour = indexPath.row
-        
         let startDate = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: selectedDate)
         
         
@@ -146,14 +156,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //    выбор ячейки, открытие task controller
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-       
+    
         
         let hour = indexPath.row
-        
         let startDate = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: selectedDate!)
         guard let validStartDate = startDate else {
             print("startDate could not be calculated")
-       return
+            return
         }
 
         let selectedTask = tasks.filter { task in
@@ -164,40 +173,54 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }.first
 
         
-       
-    
         let taskController = TaskController()
         taskController.taskControllerDelegate = self
         taskController.selectedTask = selectedTask
-        
+                
         taskController.modalPresentationStyle = .fullScreen
         present(taskController,animated: true, completion: nil)
-  
+
     }
  
     
 }
 
 extension ViewController: TaskControllerDelegate {
-    func addNewTask(_ viewContr: TaskController, newTask: Task, extistingTask: Task?) {
-
-        if let extistingTask = extistingTask {
-            taskService.updateExtistingTask(extistingTask, newTask)
-        } else {
-            taskService.addTask(newTask)
-        }
-        updateTaskForSelectedDate()
-    }
-    func getAllTasksCount() -> Int {
-        return taskService.getAllTasksQuantity()
-    }
-    func deleteTask(_ viewContr: TaskController, task: Task) {
-        taskService.deleteTask(task)
+    
+    func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?) {
+        
+        
+        if let existingTask = existingTask {
+            
+                                    taskService.updateExtistingTask(existingTask, newTask)
+//            if let index = allTasks.firstIndex(where: { $0.id == existingTask.id}) {
+//                allTasks[index] = newTask
+            }
+            else {
+                
+                                taskService.addTask(newTask)
+//                allTasks.append(newTask)
+            }
             updateTaskForSelectedDate()
         }
+//    }
+        
+        
+        
+        func getAllTasksCount() -> Int {
+                    return taskService.getAllTasksQuantity()
+//            return allTasks.count
+        }
+        
+        func deleteTask(_ viewContr: TaskController, task: Task) {
+            
+                    taskService.deleteTask(task)
+//            if let index = allTasks.firstIndex(where: {$0.id == task.id}) {
+//                allTasks.remove(at: index)
+//            }
+            updateTaskForSelectedDate()
+        }
+        
+    
+    
 }
-
-
-
-
-
