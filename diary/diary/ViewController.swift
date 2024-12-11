@@ -4,7 +4,8 @@ class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     //инициаллизация
-    var taskService = TaskServise()
+//    var taskService = TaskServise()
+    var taskService = TaskServise.shared
 //    var allTasks: [Task] = []
     var tasks: [Task] = []
     private var timeSlots: [String] = []
