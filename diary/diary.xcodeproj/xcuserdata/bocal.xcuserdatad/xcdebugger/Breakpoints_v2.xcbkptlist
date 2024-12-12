@@ -7,17 +7,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "807CD799-9CAA-478B-8E31-F83C036BD0C3"
+            uuid = "77F5A68A-A969-4105-A783-B4555E33D101"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "diary/ViewController.swift"
+            filePath = "diary/TaskController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "127"
             endingLineNumber = "127"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkName = "savingTask()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0FE6910F-8865-4C3B-80C8-37AB970F3716"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "diary/TaskController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "transferTask()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0FE6910F-8865-4C3B-80C8-37AB970F3716 - b0df0da65e111133"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "diary.TaskController.transferTask() -&gt; ()"
+                  moduleName = "diary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bocal/Desktop/diary/diary/diary/TaskController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "209">
+               </Location>
+               <Location
+                  uuid = "0FE6910F-8865-4C3B-80C8-37AB970F3716 - b0df0da65e111133"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "diary.TaskController.transferTask() -&gt; ()"
+                  moduleName = "diary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bocal/Desktop/diary/diary/diary/TaskController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "282">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

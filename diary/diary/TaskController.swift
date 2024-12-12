@@ -7,7 +7,6 @@ protocol TaskControllerDelegate: AnyObject {
     func deleteTask(_ viewContr: TaskController, task: Task)
 }
 
-
 class TaskController: UIViewController {
     
     weak var taskControllerDelegate: TaskControllerDelegate?
@@ -21,7 +20,7 @@ class TaskController: UIViewController {
     //texts
     let nameText = UITextView()
     let descriptionText = UITextView()
-
+    
     //Date Pickers
     let startDate = UIDatePicker()
     let finishDate = UIDatePicker()
@@ -33,10 +32,10 @@ class TaskController: UIViewController {
     let labelDescr = UILabel()
     
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .systemGray6
         configureExitButton()
         configureSaveButton()
@@ -46,24 +45,23 @@ class TaskController: UIViewController {
         configureFinish()
         configureDescription()
         transferTask()
-
+        
     }
     
     //передача задачи в task controller
     func transferTask() {
         if let task = selectedTask {
-             nameText.text = task.name
-             descriptionText.text = task.description
-             startDate.date = task.date_start
-             finishDate.date = task.date_finish
-         }
-         else {
-            
-             nameText.text = " "
-             descriptionText.text = " "
-             startDate.date = Date()
-             finishDate.date = Date()
-         }
+            nameText.text = task.name
+            descriptionText.text = task.description
+            startDate.date = task.date_start
+            finishDate.date = task.date_finish
+        }
+        else {
+            nameText.text = " "
+            descriptionText.text = " "
+            startDate.date = Date()
+            finishDate.date = Date()
+        }
         updateSaveButtonState()
     }
     
@@ -76,14 +74,13 @@ class TaskController: UIViewController {
         buttonExit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         buttonExit.setTitle("Exit", for: .normal)
         buttonExit.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)
-        
     }
     
     @objc func exitFromCreatingTaskController() {
         dismiss(animated: true, completion: nil)
     }
     
-
+    
     //кнопка сохранения
     private func configureSaveButton() {
         buttonSave.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +101,7 @@ class TaskController: UIViewController {
         }
     }
     
-
+    
     
     //функция сохранения заметки
     @objc private func savingTask() {
@@ -114,11 +111,11 @@ class TaskController: UIViewController {
             selectedTask?.date_start = startDate.date
             selectedTask?.date_finish = finishDate.date
             selectedTask?.description = descriptionText.text ?? ""
-    
+            
             taskControllerDelegate?.addNewTask(self, newTask: selectedTask!, existingTask: selectedTask)
-    
+            
         } else {
-           
+            
             let savingTaskName = nameText.text ?? ""
             let savingStartTime = startDate.date
             let savingFinishDate = finishDate.date
@@ -130,7 +127,7 @@ class TaskController: UIViewController {
             taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, existingTask: nil)
             
         }
-
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -141,15 +138,15 @@ class TaskController: UIViewController {
         buttonDelete.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 330).isActive = true
         buttonDelete.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 730).isActive = true
         buttonDelete.setTitle("Delete", for: .normal)
-        
-        
-        //проверить на nil
-        if selectedTask != nil {
-            taskControllerDelegate?.deleteTask(self, task: selectedTask!)
-        }
-        buttonDelete.addTarget(self, action: #selector(exitFromCreatingTaskController), for: .touchUpInside)
+        buttonDelete.addTarget(self, action: #selector(deleteTask), for: .touchUpInside)
     }
-
+    
+    @objc private func deleteTask() {
+        guard let task = selectedTask else { return }
+        taskControllerDelegate?.deleteTask(self, task: selectedTask!)
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     
     //название задачи
@@ -171,9 +168,9 @@ class TaskController: UIViewController {
             nameText.topAnchor.constraint(equalTo: view.topAnchor, constant: 125),
             nameText.heightAnchor.constraint(equalToConstant: 50)
         ])
-
+        
     }
-
+    
     // дата старта
     private func configureDateStart() {
         //label start
@@ -197,8 +194,8 @@ class TaskController: UIViewController {
         
         startDate.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
     }
-
-
+    
+    
     //дата финиша
     private func configureFinish() {
         labelEnd.text = "Finish"
@@ -219,7 +216,7 @@ class TaskController: UIViewController {
             finishDate.heightAnchor.constraint(equalToConstant: 50) //фикс высота
         ])
         finishDate.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
-    
+        
     }
     
     //сброс минут на 00
@@ -232,7 +229,7 @@ class TaskController: UIViewController {
         }
         updateSaveButtonState()
     }
-
+    
     
     
     //описание задачи
@@ -253,7 +250,7 @@ class TaskController: UIViewController {
             descriptionText.topAnchor.constraint(equalTo: view.topAnchor, constant: 320),
             descriptionText.heightAnchor.constraint(equalToConstant: 450)
         ])
-       
+        
         
     }
 }

@@ -24,7 +24,7 @@ class TaskServise {
     }
     
     func deleteTask(_ task: Task) {
-        if let index = allTasks.firstIndex(where: {$0.id == task.id}) {
+        if let index = TaskServise.shared.allTasks.firstIndex(where: {$0.id == task.id}) {
             allTasks.remove(at: index)
         }
     }
@@ -32,13 +32,11 @@ class TaskServise {
     func getTaskWithSpecificDate(_ selectedDate: Date) -> [Task] {
         return allTasks.filter { Calendar.current.isDate($0.date_start, inSameDayAs: selectedDate) }
     }
+    
     func updateExtistingTask(_ existingTask: Task, _ newTask: Task) {
-
         if let index = allTasks.firstIndex(where: { $0.id == existingTask.id}) {
-            
             allTasks[index] = newTask
-            
         }
-        
     }
+    
 }
