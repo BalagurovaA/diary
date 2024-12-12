@@ -39,6 +39,7 @@ class TaskController: UIViewController {
         view.backgroundColor = .systemGray6
         configureExitButton()
         configureSaveButton()
+        updateSaveButtonState()
         configureDeleteTask()
         configureNameTask()
         configureDateStart()
@@ -90,6 +91,7 @@ class TaskController: UIViewController {
         buttonSave.setTitle("Save", for: .normal)
         
         buttonSave.isEnabled = false
+     
         buttonSave.addTarget(self, action: #selector(savingTask), for: .touchUpInside)
     }
     

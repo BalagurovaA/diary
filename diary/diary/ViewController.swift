@@ -119,6 +119,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         //если дату не выбрали по дефолту слоты
         guard let selectedDate = selectedDate else {
             cell.textLabel?.text = timeSlots[indexPath.row]
+            cell.backgroundColor = UIColor.white
             return cell
         }
         
@@ -127,21 +128,33 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let hour = indexPath.row
         let startDate = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: selectedDate)
         
+        //!
+        if let startDateNew = startDate {
+            let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: startDateNew)!
         
         let tasksInSlot = tasks.filter { task in
-            let dateToCompare = startDate ?? Date.distantPast // или любое другое значение по умолчанию
-            return task.date_start >= dateToCompare && task.date_start < Calendar.current.date(byAdding: .hour, value: 1, to: dateToCompare)!
+            let taskEndDate = task.date_finish
+            return task.date_start < endDate && taskEndDate > startDateNew
         }
         
+        
+        if !tasksInSlot.isEmpty {
+            cell.backgroundColor = UIColor.systemGray6
+        } else {
+            cell.backgroundColor = UIColor.white
+        }
         
         if let task = tasksInSlot.first {
             cell.textLabel?.text = "\(timeSlot)\n\(task.name)\n\(task.description)"
         } else {
             cell.textLabel?.text = "\(timeSlot)"
         }
-        
+    }
+      
         return cell
     }
+    
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
