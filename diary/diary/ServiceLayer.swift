@@ -8,7 +8,7 @@
 import Foundation
 class TaskServise {
     static let shared = TaskServise()
-   private var allTasks: [Task] = []
+    private var allTasks: [Task] = []
     private init() {}
     
     func getAllTasks() -> [Task] {

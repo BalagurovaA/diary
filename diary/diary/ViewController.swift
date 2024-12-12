@@ -4,7 +4,6 @@ class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     //инициаллизация
-//    var taskService = TaskServise()
     var taskService = TaskServise.shared
 //    var allTasks: [Task] = []
     var tasks: [Task] = []
@@ -187,23 +186,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ViewController: TaskControllerDelegate {
-    
     func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?) {
         
-        
         if let existingTask = existingTask {
-            
-                                    taskService.updateExtistingTask(existingTask, newTask)
-//            if let index = allTasks.firstIndex(where: { $0.id == existingTask.id}) {
-//                allTasks[index] = newTask
-            }
-            else {
-                
-                                taskService.addTask(newTask)
-//                allTasks.append(newTask)
-            }
-            updateTaskForSelectedDate()
+            taskService.updateExtistingTask(existingTask, newTask)
+            //            if let index = allTasks.firstIndex(where: { $0.id == existingTask.id}) {
+            //                allTasks[index] = newTask
+        } else {
+            taskService.addTask(newTask)
+            //                allTasks.append(newTask)
         }
+        updateTaskForSelectedDate()
+    }
 //    }
         
         
