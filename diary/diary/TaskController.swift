@@ -11,6 +11,9 @@ class TaskController: UIViewController {
     
     weak var taskControllerDelegate: TaskControllerDelegate?
     var selectedTask: Task?
+   
+
+    
     
     //buttons
     let buttonExit = UIButton(type: .system)
@@ -84,14 +87,15 @@ class TaskController: UIViewController {
     
     //кнопка сохранения
     private func configureSaveButton() {
+        buttonSave.isEnabled = false
+        updateSaveButtonState()
         buttonSave.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonSave)
         buttonSave.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 340).isActive = true
         buttonSave.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         buttonSave.setTitle("Save", for: .normal)
         
-        buttonSave.isEnabled = false
-     
+        
         buttonSave.addTarget(self, action: #selector(savingTask), for: .touchUpInside)
     }
     
