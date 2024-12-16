@@ -19,6 +19,7 @@
 		FD3950852CFC80BF0039D3FA /* diaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3950842CFC80BF0039D3FA /* diaryTests.swift */; };
 		FD39508F2CFC80BF0039D3FA /* diaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */; };
 		FD3950912CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */; };
+		FD4242192D10562200EA3243 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD4242182D10562200EA3243 /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD4242192D10562200EA3243 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +154,9 @@
 			dependencies = (
 			);
 			name = diary;
+			packageProductDependencies = (
+				FD4242182D10562200EA3243 /* RealmSwift */,
+			);
 			productName = diary;
 			productReference = FD39506A2CFC80BC0039D3FA /* diary.app */;
 			productType = "com.apple.product-type.application";
@@ -224,6 +229,9 @@
 				Base,
 			);
 			mainGroup = FD3950612CFC80BC0039D3FA;
+			packageReferences = (
+				FD4242152D10562200EA3243 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = FD39506B2CFC80BC0039D3FA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -613,6 +621,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FD4242152D10562200EA3243 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.49.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FD4242182D10562200EA3243 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD4242152D10562200EA3243 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FD3950622CFC80BC0039D3FA /* Project object */;
 }

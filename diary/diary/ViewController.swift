@@ -16,10 +16,11 @@ class ViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        createSampleTasks()
+//        createSampleTasks()
         configureCalendar()
         configureTable()
         configTimeSlots()
+        taskService.getAllTasks()
         
     }
     

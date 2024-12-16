@@ -148,7 +148,7 @@ class TaskController: UIViewController {
     }
     
     @objc private func deleteTask() {
-        guard let task = selectedTask else { return }
+        guard let _ = selectedTask else { return }
         taskControllerDelegate?.deleteTask(self, task: selectedTask!)
         dismiss(animated: true, completion: nil)
     }
