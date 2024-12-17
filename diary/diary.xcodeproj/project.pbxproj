@@ -20,6 +20,7 @@
 		FD39508F2CFC80BF0039D3FA /* diaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */; };
 		FD3950912CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */; };
 		FD4242192D10562200EA3243 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD4242182D10562200EA3243 /* RealmSwift */; };
+		FDED34242D119C9200317530 /* firstData.json in Resources */ = {isa = PBXBuildFile; fileRef = FDED34232D119C9200317530 /* firstData.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		FD39508A2CFC80BF0039D3FA /* diaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = diaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diaryUITests.swift; sourceTree = "<group>"; };
 		FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FDED34232D119C9200317530 /* firstData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = firstData.json; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		FD39506C2CFC80BC0039D3FA /* diary */ = {
 			isa = PBXGroup;
 			children = (
+				FDED34232D119C9200317530 /* firstData.json */,
 				FD39506D2CFC80BC0039D3FA /* AppDelegate.swift */,
 				FD39506F2CFC80BC0039D3FA /* SceneDelegate.swift */,
 				FD3950712CFC80BC0039D3FA /* ViewController.swift */,
@@ -248,6 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDED34242D119C9200317530 /* firstData.json in Resources */,
 				FD39507A2CFC80BE0039D3FA /* LaunchScreen.storyboard in Resources */,
 				FD3950772CFC80BE0039D3FA /* Assets.xcassets in Resources */,
 				FD3950752CFC80BC0039D3FA /* Main.storyboard in Resources */,

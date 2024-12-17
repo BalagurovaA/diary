@@ -9,11 +9,7 @@ import Foundation
 import RealmSwift
 
 
-
-
-
-
-class TaskRealm: Object {
+class TaskRealm: Object, Codable {
 
     @objc dynamic var id: Int = 0
     @objc dynamic var date_start: Date = Date()
@@ -21,14 +17,7 @@ class TaskRealm: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var descrip: String = ""
     
-//    override class func primaryKey() -> String? {
-//        return "id"
-//   }
-//    
-    
 
-    
-    
     override init() {
         super.init()
     }
@@ -42,9 +31,6 @@ class TaskRealm: Object {
         self.descrip = description
     }
 }
-
-
-
 
 struct Task {
     var id: Int

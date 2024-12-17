@@ -11,7 +11,6 @@ import RealmSwift
 
 //удаление БД
 //private init() {
-//    // Удалите базу данных, если это необходимо
 //    let fileManager = FileManager.default
 //    let realmURL = Realm.Configuration.defaultConfiguration.fileURL!
 //
@@ -21,7 +20,6 @@ import RealmSwift
 //        print("Ошибка удаления Realm: $error)")
 //    }
 //
-//    // Инициализация Realm с новой конфигурацией
 //    realm = try! Realm()
 //}
 //
@@ -36,6 +34,11 @@ class TaskServise {
     private init() {
         realm = try! Realm()
     }
+    
+    
+    
+
+    
     
     func getAllTasks() -> [Task] {
     
@@ -109,10 +112,32 @@ class TaskServise {
                 realmTask.descrip = newTask.description
             }
         }
-        
-
     
     }
+    
+    func getDataFromJSON() {
+        guard let url = Bundle.main.url(forResource: "firstData", withExtension: "json")
+        else {
+            print("file not found")
+            return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let jsonDecoder = JSONDecoder()
+            let tasks = try jsonDecoder.decode([TaskRealm].self, from: data)
+            
+            try realm.write {
+                realm.add(tasks)
+            }
+            
+            
+        } catch {
+            print("error")
+        }
+        
+        
+    }
+    
     
 }
 
