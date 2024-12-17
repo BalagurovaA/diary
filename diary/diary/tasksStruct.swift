@@ -10,7 +10,7 @@ import RealmSwift
 
 
 class TaskRealm: Object, Decodable {
-
+    
     @objc dynamic var id: Int = 0
     @objc dynamic var date_start: Date = Date()
     @objc dynamic var date_finish: Date = Date()
@@ -20,16 +20,16 @@ class TaskRealm: Object, Decodable {
     override static func primaryKey() -> String? {
         return "id"
     }
-
     
-   enum CodingKeys: String, CodingKey {
+    
+    enum CodingKeys: String, CodingKey {
         case id
         case date_start
         case date_finish
         case name
         case description
     }
-
+    
     required convenience init(from decoder: Decoder) throws {
         self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)

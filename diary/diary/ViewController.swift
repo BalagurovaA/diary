@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-//        createSampleTasks()
+        //        createSampleTasks()
         configureCalendar()
         configureTable()
         configTimeSlots()
@@ -133,30 +133,30 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         //!
         if let startDateNew = startDate {
             let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: startDateNew)!
-        
-        let tasksInSlot = tasks.filter { task in
-            let taskEndDate = task.date_finish
-            return task.date_start < endDate && taskEndDate > startDateNew
+            
+            let tasksInSlot = tasks.filter { task in
+                let taskEndDate = task.date_finish
+                return task.date_start < endDate && taskEndDate > startDateNew
+            }
+            
+            
+            if !tasksInSlot.isEmpty {
+                cell.backgroundColor = UIColor.systemGray6
+            } else {
+                cell.backgroundColor = UIColor.white
+            }
+            
+            if let task = tasksInSlot.first {
+                cell.textLabel?.text = "\(timeSlot)\n\(task.name)\n\(task.description)"
+            } else {
+                cell.textLabel?.text = "\(timeSlot)"
+            }
         }
         
-        
-        if !tasksInSlot.isEmpty {
-            cell.backgroundColor = UIColor.systemGray6
-        } else {
-            cell.backgroundColor = UIColor.white
-        }
-        
-        if let task = tasksInSlot.first {
-            cell.textLabel?.text = "\(timeSlot)\n\(task.name)\n\(task.description)"
-        } else {
-            cell.textLabel?.text = "\(timeSlot)"
-        }
-    }
-      
         return cell
     }
     
-
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
