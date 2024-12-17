@@ -34,12 +34,9 @@ class TaskServise {
     private init() {
         realm = try! Realm()
     }
-    
-    
-    
 
-    
-    
+
+
     func getAllTasks() -> [Task] {
     
         let tasksRealm = realm.objects(TaskRealm.self)
@@ -48,7 +45,7 @@ class TaskServise {
 
 
        for object in tasksRealm {
-          print("ID: \(object.id), Name: \(object.name)")
+           print("ID: \(object.id)\n Name: \(object.name), \n Date: \(object.date_start)")
 //           try! realm.write {
 //               realm.delete(object)
 //           }
@@ -123,19 +120,18 @@ class TaskServise {
         }
         do {
             let data = try Data(contentsOf: url)
+      
             let jsonDecoder = JSONDecoder()
             let tasks = try jsonDecoder.decode([TaskRealm].self, from: data)
-            
+            print("not error3")
             try realm.write {
-                realm.add(tasks)
+                
+                realm.add(tasks, update: .modified)
+                print("not error4")
             }
-            
-            
         } catch {
             print("error")
         }
-        
-        
     }
     
     

@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         configureCalendar()
         configureTable()
         configTimeSlots()
+        taskService.getDataFromJSON()
         taskService.getAllTasks()
         
     }

@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 
-class TaskRealm: Object, Codable {
+class TaskRealm: Object, Decodable {
 
     @objc dynamic var id: Int = 0
     @objc dynamic var date_start: Date = Date()
@@ -17,18 +17,35 @@ class TaskRealm: Object, Codable {
     @objc dynamic var name: String = ""
     @objc dynamic var descrip: String = ""
     
-
-    override init() {
-        super.init()
+    override static func primaryKey() -> String? {
+        return "id"
     }
 
-    convenience init(id: Int, date_start: Date, date_finish: Date, name: String, description: String) {
+    
+   enum CodingKeys: String, CodingKey {
+        case id
+        case date_start
+        case date_finish
+        case name
+        case description
+    }
+
+    required convenience init(from decoder: Decoder) throws {
         self.init()
-        self.id = id
-        self.date_start = date_start
-        self.date_finish = date_finish
-        self.name = name
-        self.descrip = description
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        
+        id = try container.decode(Int.self, forKey: .id)
+        let jsonDateStart = try container.decode(Double.self, forKey: .date_start)
+        date_start = Date(timeIntervalSince1970: jsonDateStart)
+        let jsonDateFinish = try container.decode(Double.self, forKey: .date_finish)
+        date_finish = Date(timeIntervalSince1970: jsonDateFinish)
+        name = try container.decode(String.self, forKey: .name)
+        descrip = try container.decode(String.self, forKey: .description)
+    }
+    
+    required override init() {
+        super.init()
     }
 }
 
