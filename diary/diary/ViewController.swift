@@ -17,26 +17,15 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
        
-        //        createSampleTasks()
         configureCalendar()
         configureTable()
         configTimeSlots()
         taskService.getDataFromJSON()
-        taskService.getAllTasks()
-        tableView.reloadData()
+//        taskService.getAllTasks()
         
-    }
-    
-    
-    private func createSampleTasks() {
-        // Установка форматирования даты
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        if let dateStart1 = dateFormatter.date(from: "2024-12-11 01:00"),
-           let dateFinish1 = dateFormatter.date(from: "2024-12-11 02:00") {
-            let task1 = Task(id: 1, date_start: dateStart1, date_finish: dateFinish1, name: "Задача 1", description: "Полотно отличается не только большой красочностью, но и разнообразием техники. Работая над картиной в несколько приёмов, Левитан делал неоднократные повторные прописки по сухому.")
-            taskService.addTask(task1)
-        }
+        // или установите любую дату по умолчанию
+      updateTaskForSelectedDate() // Обновите таблицу с заданиями для выбранной даты
+        tableView.reloadData()
         
     }
     
@@ -82,6 +71,7 @@ class ViewController: UIViewController {
     }
     
     private func updateTaskForSelectedDate() {
+        selectedDate = Date()
         guard let selectedDate = selectedDate else { return }
         
         tasks = taskService.getTaskWithSpecificDate(selectedDate)
