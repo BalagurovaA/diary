@@ -16,12 +16,14 @@ class ViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+       
         //        createSampleTasks()
         configureCalendar()
         configureTable()
         configTimeSlots()
         taskService.getDataFromJSON()
         taskService.getAllTasks()
+        tableView.reloadData()
         
     }
     
@@ -174,13 +176,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        let selectedTask = tasks.filter { task in
-            guard let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: validStartDate) else {
-                return false
-            }
-            return task.date_start >= validStartDate && task.date_start < endDate
-        }.first
+        guard let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: validStartDate) else {
+            return
+        }
         
+        let TimeTasks = tasks.filter { task in
+            let startDateOfTask = task.date_start
+            let endDateOfTask = task.date_finish
+            return (startDateOfTask < endDate && endDateOfTask > validStartDate)
+            }
+
+        let selectedTask = TimeTasks.first
         
         let taskController = TaskController()
         taskController.taskControllerDelegate = self

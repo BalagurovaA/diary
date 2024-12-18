@@ -58,8 +58,6 @@ class TaskServise {
     }
     
     
-    //сюда добавляется Realm!!!!
-    
     func addTask(_ task: Task) {
         let taskRealm = TaskRealm()
         taskRealm.id = task.id
