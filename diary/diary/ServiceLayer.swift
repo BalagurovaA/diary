@@ -1,13 +1,5 @@
-//
-//  ServiceLayer.swift
-//  diary
-//
-//  Created by bocal on 12/10/24.
-//
-
 import Foundation
 import RealmSwift
-
 
 //удаление БД
 //private init() {
@@ -25,91 +17,72 @@ import RealmSwift
 //
 
 
-
-
 class TaskServise {
     static let shared = TaskServise()
     private var realm: Realm
+    private var tasks: [TaskModel]
     
     private init() {
-        realm = try! Realm()
+        do {
+            realm = try Realm()
+        } catch {
+            fatalError("Can't initialize realm object")
+        }
+        tasks = []
     }
     
-    
-    
-    func getAllTasks() -> [Task] {
-        
-        let tasksRealm = realm.objects(TaskRealm.self)
-        
-        
-        
-        
-        for object in tasksRealm {
-            print("ID: \(object.id)\n Name: \(object.name), \n Date: \(object.date_start)")
-            //           try! realm.write {
-            //               realm.delete(object)
-            //           }
+    func addTask(_ task: TaskModel) {
+        var newTask = TaskModel()
+        newTask.setId(task.getId())
+        newTask.setDateStart(task.getDateStart())
+        newTask.setDateFinish(task.getDateFinish())
+        newTask.setName(task.getName())
+        newTask.setDescription(task.getDescription())
+        try! realm.write {
+            realm.add(newTask)
         }
-        return tasksRealm.map { Task(id: $0.id, date_start: $0.date_start, date_finish: $0.date_finish, name: $0.name, description: $0.descrip) }
+        
+    }
+    
+    func deleteTask(_ task: TaskModel) {
+        let tasksToDelete = realm.objects(TaskModel.self).filter {$0.getId() == task.getId()}
+        
+        if let taskToDelete = tasksToDelete.first {
+            try! realm.write {
+                realm.delete(taskToDelete)
+            }
+        }
+    }
+    
+    func getAllTasks() -> [TaskModel] {
+        let allTasks = realm.objects(TaskModel.self)
+        return Array(allTasks)
     }
     
     func getAllTasksQuantity() -> Int {
-        return realm.objects(TaskRealm.self).count
+        return realm.objects(TaskModel.self).count
     }
     
-    
-    func addTask(_ task: Task) {
-        let taskRealm = TaskRealm()
-        taskRealm.id = task.id
-        taskRealm.date_start = task.date_start
-        taskRealm.date_finish = task.date_finish
-        taskRealm.name = task.name
-        taskRealm.descrip = task.description
-        
-        try! realm.write {
-            realm.add(taskRealm)
-        }
-        
-    }
-    
-    func deleteTask(_ task: Task) {
-        let realmTasks = realm.objects(TaskRealm.self).filter {$0.id == task.id}
-        
-        if let realmTask = realmTasks.first {
-            try! realm.write {
-                realm.delete(realmTask)
-            }
-        }
-    }
-    
-    
-    
-    
-    func getTaskWithSpecificDate(_ selectedDate: Date) -> [Task] {
+    func getTaskWithSpecificDate(_ selectedDate: Date) -> [TaskModel] {
         let dateStart = Calendar.current.startOfDay(for: selectedDate)
         let dateEnd = Calendar.current.date(byAdding: .day, value: 1, to: dateStart)!
-        let tasksRealm = realm.objects(TaskRealm.self).filter { $0.date_start >= dateStart }.filter {$0.date_finish < dateEnd}
-        return tasksRealm.map { Task(id: $0.id, date_start: $0.date_start, date_finish: $0.date_finish, name: $0.name, description: $0.descrip)}
+        let tasksRealm = realm.objects(TaskModel.self).filter {$0.getDateStart() >= dateStart}.filter { $0.getDateFinish() < dateEnd }
+        return Array(tasksRealm)
     }
     
-    
-    
-    
-    func updateExtistingTask(_ existingTask: Task, _ newTask: Task) {
+    func updateExistingTask(_ existingTask: TaskModel, _ newTask: TaskModel) {
+        let existingRealmTasks = realm.objects(TaskModel.self).filter {$0.getId() == existingTask.getId()}
         
-        let realmTasks = realm.objects(TaskRealm.self).filter {$0.id == existingTask.id}
-        
-        if let realmTask = realmTasks.first {
+        if let existingTask = existingRealmTasks.first {
             try! realm.write {
-                realmTask.name = newTask.name
-                realmTask.date_start = newTask.date_start
-                realmTask.date_finish = newTask.date_finish
-                realmTask.descrip = newTask.description
+                existingTask.setName(newTask.getName())
+                existingTask.setDateStart(newTask.getDateStart())
+                existingTask.setDateFinish(newTask.getDateFinish())
+                existingTask.setDescription(newTask.getDescription())
             }
         }
-        
     }
-    
+
     func getDataFromJSON() {
         guard let url = Bundle.main.url(forResource: "firstData", withExtension: "json")
         else {
@@ -120,12 +93,9 @@ class TaskServise {
             let data = try Data(contentsOf: url)
             
             let jsonDecoder = JSONDecoder()
-            let tasks = try jsonDecoder.decode([TaskRealm].self, from: data)
-            print("not error3")
+            let tasks = try jsonDecoder.decode([TaskModel].self, from: data)
             try realm.write {
-                
                 realm.add(tasks, update: .modified)
-                print("not error4")
             }
         } catch {
             print("error")
