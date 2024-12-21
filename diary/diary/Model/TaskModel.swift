@@ -28,7 +28,6 @@ class TaskModel: Object, Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let jsonId = try container.decode(Int.self, forKey: .id)
-        id = try container.decode(String.self, forKey: .id)
         id = String(jsonId)
         
         let jsonDateStart = try container.decode(Double.self, forKey: .date_start)

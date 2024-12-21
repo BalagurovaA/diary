@@ -1,20 +1,7 @@
 import Foundation
 import RealmSwift
 
-//удаление БД
-//private init() {
-//    let fileManager = FileManager.default
-//    let realmURL = Realm.Configuration.defaultConfiguration.fileURL!
-//
-//    do {
-//        try fileManager.removeItem(at: realmURL)
-//    } catch {
-//        print("Ошибка удаления Realm: $error)")
-//    }
-//
-//    realm = try! Realm()
-//}
-//
+//удаление бд
 //private init() {
 //    // Удаляем базу данных Realm
 //    let fileManager = FileManager.default
@@ -128,12 +115,13 @@ class TaskServise {
             let data = try Data(contentsOf: url)
             
             let jsonDecoder = JSONDecoder()
+            jsonDecoder.dateDecodingStrategy = .iso8601
             let tasks = try jsonDecoder.decode([TaskModel].self, from: data)
             try realm.write {
                 realm.add(tasks, update: .modified)
             }
         } catch {
-            print("error")
+            print("can't decode JSON")
         }
     }
     
