@@ -1,18 +1,8 @@
 import Foundation
 import UIKit
 
-//protocol TaskControllerDelegate: AnyObject {
-//    func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?)
-//    func getAllTasksCount() -> Int
-//    func deleteTask(_ viewContr: TaskController, task: Task)
-//}
-
 class TaskController: UIViewController {
-    
-//    weak var taskControllerDelegate: TaskControllerDelegate?
-//    var selectedTask: Task?
-    
-    
+//инициализация
     //buttons
     let buttonExit = UIButton(type: .system)
     let buttonSave = UIButton(type: .system)
@@ -32,16 +22,12 @@ class TaskController: UIViewController {
     let labelName = UILabel()
     let labelDescr = UILabel()
 
-    
-//    var viewModelController = ViewModel()
-    //мб не нужно инициализировать
     var viewModelController: ViewModel
     var selectedTask: TaskModel?
     
-
     init(viewModel: ViewModel) {
         self.viewModelController = viewModel
-        super.init(nibName: nil, bundle: nil)  // Use nil if not using a nib
+        super.init(nibName: nil, bundle: nil)
     }
         
     required init?(coder: NSCoder) {
@@ -60,8 +46,6 @@ class TaskController: UIViewController {
         configureDateStart()
         configureFinish()
         configureDescription()
-//        transferTask()
-        
     }
     
     //кнопка выход
@@ -89,18 +73,6 @@ class TaskController: UIViewController {
         buttonSave.setTitle("Save", for: .normal)
         buttonSave.addTarget(self, action: #selector(savingTask), for: .touchUpInside)
     }
-    
-    private func updateSaveButtonState() {
-        if startDate.date < finishDate.date {
-            buttonSave.isEnabled = true
-        } else {
-            buttonSave.isEnabled = false
-        }
-//        buttonSave.isEnabled =  startDate.date < finishDate.date
-    }
-    
-    
-    //функция сохранения заметки
 
         @objc private func savingTask() {
             let newTask = TaskModel()
@@ -120,6 +92,16 @@ class TaskController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    private func updateSaveButtonState() {
+//        if startDate.date < finishDate.date {
+//            buttonSave.isEnabled = true
+//        } else {
+//            buttonSave.isEnabled = false
+//        }
+        buttonSave.isEnabled =  startDate.date < finishDate.date
+    }
+    
+    
     //удаление задачи
     private func configureDeleteTask() {
         buttonDelete.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +111,6 @@ class TaskController: UIViewController {
         buttonDelete.setTitle("Delete", for: .normal)
         buttonDelete.addTarget(self, action: #selector(deleteTask), for: .touchUpInside)
     }
-    
     
     @objc private func deleteTask() {
         if let selectedTask = selectedTask  {
@@ -220,8 +201,6 @@ class TaskController: UIViewController {
         updateSaveButtonState()
     }
     
-    
-    
     //описание задачи
     private func configureDescription() {
         labelDescr.text = "Description"
@@ -240,7 +219,5 @@ class TaskController: UIViewController {
             descriptionText.topAnchor.constraint(equalTo: view.topAnchor, constant: 320),
             descriptionText.heightAnchor.constraint(equalToConstant: 450)
         ])
-        
-        
     }
 }

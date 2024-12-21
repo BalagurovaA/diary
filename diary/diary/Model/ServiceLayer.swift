@@ -40,10 +40,6 @@ class TaskServise {
         tasks = []
     }
     
-
-    
-    
-    
     //сохранение заметок
     func addNewTask(_ task: TaskModel) {
         let newTask = TaskModel()

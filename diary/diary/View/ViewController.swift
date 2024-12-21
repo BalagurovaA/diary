@@ -26,9 +26,6 @@ class ViewController: UIViewController {
         taskController.modalPresentationStyle = .fullScreen
         present(taskController, animated: true, completion: nil)
     }
-    
-    
-
 
     //КАЛЕНДАРЬ
     private func configureCalendar() {
@@ -69,7 +66,6 @@ class ViewController: UIViewController {
     }
     
 }
-
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {

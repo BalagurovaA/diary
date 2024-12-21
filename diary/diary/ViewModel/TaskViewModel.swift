@@ -80,7 +80,6 @@ class ViewModel {
         updateTaskForSelectedDate()
     }
     
-    
     func getAllTasksCount() -> Int {
         return taskService.getAllTasksQuantity()
     }
@@ -89,31 +88,14 @@ class ViewModel {
         taskService.deleteTask(task)
         updateTaskForSelectedDate()
     }
-    
-//    func saveTask(_ task: TaskModel) {
-//        taskService.addTask(task)
-//    }
-
-    
-    
-    
-    
-//////////////////
-    
-
 
 //      геттеры
     func getQuantityTimeSlots() -> Int {
         return timeSlots.count
     }
-//    func getSelectedTask() -> Date? {
-//        return selectedDate
-//    }
+
 //      сеттеры
     func setSelectedDate(_ newSelectedDate: Date) {
         selectedDate = newSelectedDate
     }
-    
-    
-    
 }
