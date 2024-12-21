@@ -15,12 +15,34 @@ import RealmSwift
 //    realm = try! Realm()
 //}
 //
-
+//private init() {
+//    // Удаляем базу данных Realm
+//    let fileManager = FileManager.default
+//    let realmURL = Realm.Configuration.defaultConfiguration.fileURL!
+//
+//    do {
+//        try fileManager.removeItem(at: realmURL)
+//        print("Realm database deleted successfully.")
+//    } catch {
+//        print("Ошибка удаления Realm: \(error)")
+//    }
+//
+//    // Инициализируем Realm после удаления базы данных
+//    do {
+//        realm = try Realm()
+//    } catch {
+//        fatalError("Can't initialize Realm: \(error)")
+//    }
+//
+//    // Инициализируем массив задач
+//    tasks = []
+//}
 
 class TaskServise {
     static let shared = TaskServise()
     private var realm: Realm
     private var tasks: [TaskModel]
+    
     
     private init() {
         do {
@@ -31,19 +53,44 @@ class TaskServise {
         tasks = []
     }
     
-    func addTask(_ task: TaskModel) {
-        var newTask = TaskModel()
-        newTask.setId(task.getId())
+
+    
+    
+    
+    //сохранение заметок
+    func addNewTask(_ task: TaskModel) {
+        let newTask = TaskModel()
+        newTask.setId(UUID().uuidString)
+        newTask.setName(task.getName())
         newTask.setDateStart(task.getDateStart())
         newTask.setDateFinish(task.getDateFinish())
-        newTask.setName(task.getName())
         newTask.setDescription(task.getDescription())
+        
+        print("!!!!!!!!!")
+        print("Saving task with ID: \(newTask.getId())")
+        print("!!!!!!!!!")
+        
         try! realm.write {
             realm.add(newTask)
         }
-        
     }
     
+    func updateExistingTask(_ existingTask: TaskModel, _ newTask: TaskModel) {
+        let tasksToUpdate = realm.objects(TaskModel.self).filter {$0.getId() == existingTask.getId()}
+        if let existingTaskRealm = tasksToUpdate.first {
+            try! realm.write {
+                existingTaskRealm.setName(newTask.getName())
+                existingTaskRealm.setDateStart(newTask.getDateStart())
+                existingTaskRealm.setDateFinish(newTask.getDateFinish())
+                existingTaskRealm.setDescription(newTask.getDescription())
+            }
+        } else {
+            print("there are no existing Task")
+        }
+    }
+    
+    
+    //удаление заметок
     func deleteTask(_ task: TaskModel) {
         let tasksToDelete = realm.objects(TaskModel.self).filter {$0.getId() == task.getId()}
         
@@ -70,18 +117,6 @@ class TaskServise {
         return Array(tasksRealm)
     }
     
-    func updateExistingTask(_ existingTask: TaskModel, _ newTask: TaskModel) {
-        let existingRealmTasks = realm.objects(TaskModel.self).filter {$0.getId() == existingTask.getId()}
-        
-        if let existingTask = existingRealmTasks.first {
-            try! realm.write {
-                existingTask.setName(newTask.getName())
-                existingTask.setDateStart(newTask.getDateStart())
-                existingTask.setDateFinish(newTask.getDateFinish())
-                existingTask.setDescription(newTask.getDescription())
-            }
-        }
-    }
 
     func getDataFromJSON() {
         guard let url = Bundle.main.url(forResource: "firstData", withExtension: "json")

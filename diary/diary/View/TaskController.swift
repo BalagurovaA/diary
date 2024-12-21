@@ -1,18 +1,16 @@
 import Foundation
 import UIKit
 
-protocol TaskControllerDelegate: AnyObject {
-    func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?)
-    func getAllTasksCount() -> Int
-    func deleteTask(_ viewContr: TaskController, task: Task)
-}
+//protocol TaskControllerDelegate: AnyObject {
+//    func addNewTask(_ viewContr: TaskController, newTask: Task, existingTask: Task?)
+//    func getAllTasksCount() -> Int
+//    func deleteTask(_ viewContr: TaskController, task: Task)
+//}
 
 class TaskController: UIViewController {
     
-    weak var taskControllerDelegate: TaskControllerDelegate?
-    var selectedTask: Task?
-    
-    
+//    weak var taskControllerDelegate: TaskControllerDelegate?
+//    var selectedTask: Task?
     
     
     //buttons
@@ -33,8 +31,22 @@ class TaskController: UIViewController {
     let labelEnd = UILabel()
     let labelName = UILabel()
     let labelDescr = UILabel()
+
     
+//    var viewModelController = ViewModel()
+    //мб не нужно инициализировать
+    var viewModelController: ViewModel
+    var selectedTask: TaskModel?
     
+
+    init(viewModel: ViewModel) {
+        self.viewModelController = viewModel
+        super.init(nibName: nil, bundle: nil)  // Use nil if not using a nib
+    }
+        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,26 +60,9 @@ class TaskController: UIViewController {
         configureDateStart()
         configureFinish()
         configureDescription()
-        transferTask()
+//        transferTask()
         
     }
-    
-    //передача задачи в task controller
-    func transferTask() {
-        if let task = selectedTask {
-            nameText.text = task.name
-            descriptionText.text = task.description
-            startDate.date = task.date_start
-            finishDate.date = task.date_finish
-        }
-        else {
-            nameText.text = " "
-            descriptionText.text = " "
-            startDate.date = Date()
-            finishDate.date = Date()
-        }
-    }
-    
     
     //кнопка выход
     private func configureExitButton() {
@@ -105,35 +100,23 @@ class TaskController: UIViewController {
     }
     
     
-
-
-    
-    
     //функция сохранения заметки
-    @objc private func savingTask() {
-        
-        if selectedTask != nil {
-            selectedTask?.name = nameText.text ?? ""
-            selectedTask?.date_start = startDate.date
-            selectedTask?.date_finish = finishDate.date
-            selectedTask?.description = descriptionText.text ?? ""
+
+        @objc private func savingTask() {
+            let newTask = TaskModel()
+            newTask.setId(UUID().uuidString)
+            newTask.setName(nameText.text ?? "")
+            newTask.setDescription(descriptionText.text ?? "")
+            newTask.setDateStart(startDate.date)
+            newTask.setDateFinish(finishDate.date)
             
-            taskControllerDelegate?.addNewTask(self, newTask: selectedTask!, existingTask: selectedTask)
+            if let existingTask = selectedTask {
+                viewModelController.saveTask(newTask, existingTask)
+            } else {
+                viewModelController.saveTask(newTask, nil)
+            }
             
-        } else {
-            
-            let savingTaskName = nameText.text ?? ""
-            let savingStartTime = startDate.date
-            let savingFinishDate = finishDate.date
-            let savingDescr = descriptionText.text ?? ""
-            let savingNewId = (taskControllerDelegate?.getAllTasksCount() ?? 00) + 1
-            
-            let newSavingtask = Task(id: savingNewId, date_start: savingStartTime, date_finish: savingFinishDate, name: savingTaskName, description: savingDescr)
-            
-            taskControllerDelegate?.addNewTask(self, newTask: newSavingtask, existingTask: nil)
-            
-        }
-        
+        viewModelController.updateTaskForSelectedDate()
         dismiss(animated: true, completion: nil)
     }
     
@@ -147,12 +130,13 @@ class TaskController: UIViewController {
         buttonDelete.addTarget(self, action: #selector(deleteTask), for: .touchUpInside)
     }
     
+    
     @objc private func deleteTask() {
-        guard let _ = selectedTask else { return }
-        taskControllerDelegate?.deleteTask(self, task: selectedTask!)
+        if let selectedTask = selectedTask  {
+            viewModelController.deleteTask(selectedTask)
+        }
         dismiss(animated: true, completion: nil)
     }
-    
     
     
     //название задачи

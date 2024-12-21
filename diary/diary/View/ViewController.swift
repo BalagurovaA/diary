@@ -16,19 +16,13 @@ class ViewController: UIViewController {
        
         configureCalendar()
         configureTable()
-//        configTimeSlots()
-//        taskService.getDataFromJSON()
-//        print(taskService.getAllTasks())
-//      updateTaskForSelectedDate()
         tableView.reloadData()
-        
+        print(viewModelController.getAllTasks())
     }
     
     //работа с кнопкой плюс
     @IBAction func createTask(_ sender: Any) {
-        let taskController = TaskController()
-        
-//        taskController.viewModel = viewModelController // передаем ViewModel
+        let taskController = TaskController(viewModel: viewModelController)
         taskController.modalPresentationStyle = .fullScreen
         present(taskController, animated: true, completion: nil)
     }
@@ -55,6 +49,8 @@ class ViewController: UIViewController {
     //теперь selected date имеет значение
     @objc func dateChanged(_ send: UIDatePicker) {
         viewModelController.setSelectedDate(send.date)
+        viewModelController.updateTaskForSelectedDate()
+        tableView.reloadData()
     }
 
     
@@ -103,12 +99,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let hour = indexPath.row
         let selectedTask = viewModelController.selectTasks(indexPath.row).first
         
-        let taskController = TaskController()
-
-        taskController.selectedTask = viewModelController.getSelectedTask()
+        let taskController = TaskController(viewModel: viewModelController)
+        taskController.selectedTask = selectedTask
         taskController.modalPresentationStyle = .fullScreen
         present(taskController,animated: true, completion: nil)
     }

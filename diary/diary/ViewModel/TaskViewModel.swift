@@ -4,7 +4,7 @@ class ViewModel {
     
     var taskService = TaskServise.shared
     private var timeSlots: [String] = []
-    private var selectedDate: Date?
+    var selectedDate: Date?
     private var tasks: [TaskModel] = []
     
     init() {
@@ -22,11 +22,19 @@ class ViewModel {
         }
     }
     
-    private func updateTaskForSelectedDate() {
-//        selectedDate = Date()
-        guard let selectedDate = selectedDate else { return }
+    func updateTaskForSelectedDate() {
+        guard let selectedDate = selectedDate else {
+            print("Selected date is nil")
+            return
+        }
         tasks = taskService.getTaskWithSpecificDate(selectedDate)
     }
+    
+    func getAllTasks() -> [TaskModel] {
+        return taskService.getAllTasks()
+    }
+    
+    
     
     func selectTasks(_ index: Int) -> [TaskModel] {
         guard let selectedDate = selectedDate else {
@@ -57,20 +65,21 @@ class ViewModel {
         if tasksInSlot.isEmpty {
             return timeSlot
         } else {
-            let taskDescriptions = tasksInSlot.map { _ in "$$0.name) - $$0.description)" }
-            return "$timeSlot)\n" + taskDescriptions.joined(separator: "\n")
+            let taskDescriptions = tasksInSlot.map { task in "\(task.getName())\n\(task.getDescription())" }
+            return "\(timeSlot)\n" + taskDescriptions.joined(separator: "\n")
         }
     }
     
     //методы для делегатов
-    func addNewTask(_ newTask: TaskModel, _ exitingTask: TaskModel? ) {
+    func saveTask(_ newTask: TaskModel, _ exitingTask: TaskModel? ) {
         if let exitingTask = exitingTask {
             taskService.updateExistingTask(exitingTask, newTask)
         } else {
-            taskService.addTask(newTask)
+            taskService.addNewTask(newTask)
         }
         updateTaskForSelectedDate()
     }
+    
     
     func getAllTasksCount() -> Int {
         return taskService.getAllTasksQuantity()
@@ -80,6 +89,15 @@ class ViewModel {
         taskService.deleteTask(task)
         updateTaskForSelectedDate()
     }
+    
+//    func saveTask(_ task: TaskModel) {
+//        taskService.addTask(task)
+//    }
+
+    
+    
+    
+    
 //////////////////
     
 
@@ -88,13 +106,14 @@ class ViewModel {
     func getQuantityTimeSlots() -> Int {
         return timeSlots.count
     }
-    func getSelectedTask() -> Date? {
-        return selectedDate
-    }
+//    func getSelectedTask() -> Date? {
+//        return selectedDate
+//    }
 //      сеттеры
     func setSelectedDate(_ newSelectedDate: Date) {
         selectedDate = newSelectedDate
     }
+    
     
     
 }

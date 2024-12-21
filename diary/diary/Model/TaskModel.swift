@@ -4,7 +4,7 @@ import RealmSwift
 
 class TaskModel: Object, Decodable {
     
-    @objc dynamic private var id: Int = 0
+    @objc dynamic private var id: String = UUID().uuidString
     @objc dynamic private var date_start: Date = Date()
     @objc dynamic private var date_finish: Date = Date()
     @objc dynamic private var name: String = ""
@@ -27,8 +27,9 @@ class TaskModel: Object, Decodable {
         self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        
-        id = try container.decode(Int.self, forKey: .id)
+        let jsonId = try container.decode(Int.self, forKey: .id)
+        id = try container.decode(String.self, forKey: .id)
+        id = String(jsonId)
         
         let jsonDateStart = try container.decode(Double.self, forKey: .date_start)
         date_start = Date(timeIntervalSince1970: jsonDateStart)
@@ -47,7 +48,7 @@ class TaskModel: Object, Decodable {
  
     
     //геттеры для данных
-    func getId() -> Int {
+    func getId() -> String {
         return id
     }
     
@@ -68,7 +69,7 @@ class TaskModel: Object, Decodable {
     }
     
     //сеттеры для данных
-    func setId(_ newId: Int) {
+    func setId(_ newId: String) {
         id = newId
     }
     func setDateStart(_ newDateStart: Date) {
