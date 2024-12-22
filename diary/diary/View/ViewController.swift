@@ -11,9 +11,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModelController.setSelectedDate(Date())
+        viewModelController.updateTaskForSelectedDate()
+        
         tableView.delegate = self
         tableView.dataSource = self
-       
+        
+        tableView.reloadData()
         configureCalendar()
         configureTable()
         tableView.reloadData()
@@ -97,9 +101,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         let selectedTask = viewModelController.selectTasks(indexPath.row).first
         
+        
         let taskController = TaskController(viewModel: viewModelController)
         taskController.selectedTask = selectedTask
+        
+        taskController.onTaskDeleted = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
         taskController.modalPresentationStyle = .fullScreen
         present(taskController,animated: true, completion: nil)
+        tableView.reloadData()
     }
 }

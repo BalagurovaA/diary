@@ -7,49 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F95D29BF-9670-4173-8530-EDF44A364D6E"
+            uuid = "C47BE3BC-C96A-4E6A-AD42-35DEF4EF1A5F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "diary/Model/ServiceLayer.swift"
+            filePath = "diaryTests/diaryTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "addNewTask(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F95D29BF-9670-4173-8530-EDF44A364D6E - 8d6eadf11db72eab"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "diary.TaskServise.() -&gt; diary.TaskServise.init() -&gt; diary.TaskServise"
-                  moduleName = "diary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kristofs/Desktop/diary/diary/diary/Model/ServiceLayer.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "1095">
-               </Location>
-               <Location
-                  uuid = "F95D29BF-9670-4173-8530-EDF44A364D6E - f65fbb91cf744ff1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in diary.TaskServise.addNewTask(diary.TaskModel) -&gt; ()"
-                  moduleName = "diary"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kristofs/Desktop/diary/diary/diary/Model/ServiceLayer.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "61">
-               </Location>
-            </Locations>
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "diaryTests"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

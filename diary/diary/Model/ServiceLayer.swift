@@ -25,13 +25,13 @@ import RealmSwift
 //    tasks = []
 //}
 
-class TaskServise {
-    static let shared = TaskServise()
-    private var realm: Realm
+class TaskService {
+    static let shared = TaskService()
+     var realm: Realm
     private var tasks: [TaskModel]
     
     
-    private init() {
+    init() {
         do {
             realm = try Realm()
         } catch {
@@ -49,9 +49,7 @@ class TaskServise {
         newTask.setDateFinish(task.getDateFinish())
         newTask.setDescription(task.getDescription())
         
-        print("!!!!!!!!!")
-        print("Saving task with ID: \(newTask.getId())")
-        print("!!!!!!!!!")
+
         
         try! realm.write {
             realm.add(newTask)
@@ -119,6 +117,10 @@ class TaskServise {
         } catch {
             print("can't decode JSON")
         }
+    }
+    
+    func setRealm(_ Nrealm: Realm) {
+        realm = Nrealm
     }
     
     

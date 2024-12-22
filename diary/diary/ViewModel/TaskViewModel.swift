@@ -2,7 +2,7 @@ import Foundation
 
 class ViewModel {
     
-    var taskService = TaskServise.shared
+    var taskService = TaskService.shared
     private var timeSlots: [String] = []
     var selectedDate: Date?
     private var tasks: [TaskModel] = []
@@ -98,4 +98,5 @@ class ViewModel {
     func setSelectedDate(_ newSelectedDate: Date) {
         selectedDate = newSelectedDate
     }
+
 }

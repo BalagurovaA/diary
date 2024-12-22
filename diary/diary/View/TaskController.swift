@@ -24,6 +24,8 @@ class TaskController: UIViewController {
 
     var viewModelController: ViewModel
     var selectedTask: TaskModel?
+    //замыкание для обновления таблицы
+    var onTaskDeleted: (() -> Void)?
     
     init(viewModel: ViewModel) {
         self.viewModelController = viewModel
@@ -84,10 +86,12 @@ class TaskController: UIViewController {
             
             if let existingTask = selectedTask {
                 viewModelController.saveTask(newTask, existingTask)
+ 
             } else {
                 viewModelController.saveTask(newTask, nil)
             }
-            
+        //обновление таблицы
+        onTaskDeleted?()
         viewModelController.updateTaskForSelectedDate()
         dismiss(animated: true, completion: nil)
     }
@@ -98,7 +102,7 @@ class TaskController: UIViewController {
 //        } else {
 //            buttonSave.isEnabled = false
 //        }
-        buttonSave.isEnabled =  startDate.date < finishDate.date
+//        buttonSave.isEnabled =  startDate.date < finishDate.date
     }
     
     
@@ -115,6 +119,8 @@ class TaskController: UIViewController {
     @objc private func deleteTask() {
         if let selectedTask = selectedTask  {
             viewModelController.deleteTask(selectedTask)
+            //обновление таблицы
+            onTaskDeleted?()
         }
         dismiss(animated: true, completion: nil)
     }
@@ -127,6 +133,8 @@ class TaskController: UIViewController {
         labelName.frame = CGRect(x: 25, y: 80, width: 280, height: 50)
         view.addSubview(labelName)
         
+        
+        nameText.text = selectedTask?.getName()
         nameText.backgroundColor = UIColor.white
         nameText.layer.cornerRadius = 12
         nameText.font = .systemFont(ofSize: 14)
@@ -150,6 +158,7 @@ class TaskController: UIViewController {
         labelStart.frame = CGRect(x: 25, y: 180, width: 280, height: 50)
         view.addSubview(labelStart)
         
+        startDate.date = selectedTask?.getDateStart() ?? Date()
         startDate.locale = .current
         startDate.datePickerMode = .dateAndTime
         startDate.preferredDatePickerStyle = .compact
@@ -174,6 +183,7 @@ class TaskController: UIViewController {
         labelEnd.frame = CGRect(x: 25, y: 230, width: 280, height: 50)
         view.addSubview(labelEnd)
         
+        finishDate.date = selectedTask?.getDateFinish() ?? Date()
         finishDate.locale = .current
         finishDate.datePickerMode = .dateAndTime
         finishDate.preferredDatePickerStyle = .compact
@@ -207,6 +217,7 @@ class TaskController: UIViewController {
         labelDescr.textColor = .black
         labelDescr.frame = CGRect(x: 25, y: 270, width: 280, height: 50)
         view.addSubview(labelDescr)
+        descriptionText.text = selectedTask?.getDescription()
         descriptionText.backgroundColor = UIColor.white
         descriptionText.layer.cornerRadius = 12
         descriptionText.font = .systemFont(ofSize: 14)
