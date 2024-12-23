@@ -43,13 +43,11 @@ class TaskService {
     //сохранение заметок
     func addNewTask(_ task: TaskModel) {
         let newTask = TaskModel()
-        newTask.setId(UUID().uuidString)
+        newTask.setId(task.getId())
         newTask.setName(task.getName())
         newTask.setDateStart(task.getDateStart())
         newTask.setDateFinish(task.getDateFinish())
         newTask.setDescription(task.getDescription())
-        
-
         
         try! realm.write {
             realm.add(newTask)
@@ -68,6 +66,7 @@ class TaskService {
         } else {
             print("there are no existing Task")
         }
+   
     }
     
     

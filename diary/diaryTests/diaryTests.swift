@@ -42,6 +42,8 @@ final class diaryTests: XCTestCase {
         task.setDateFinish(Date().addingTimeInterval(3600))
         task.setDescription("Test Task 1")
         taskService.addNewTask(task)
+       
+        
         
         let tasks = realm.objects(TaskModel.self)
         let testTaskSaved = tasks.first
@@ -128,38 +130,109 @@ final class diaryTests: XCTestCase {
     
     func testUpdateExistingTask1() throws {
         let existingTask = TaskModel()
-        existingTask.setId("test-id-1")
+        existingTask.setName("test-1")
+        existingTask.setDateStart(Date())
+        existingTask.setDateFinish(Date().addingTimeInterval(3600))
+        existingTask.setDescription("Test Task 1")
+        taskService.addNewTask(existingTask)
+
+
+        let newTask = TaskModel()
+        newTask.setId(existingTask.getId())
+        newTask.setName("newTask")
+        newTask.setDateStart(Date().addingTimeInterval(3600))
+        newTask.setDateFinish(Date().addingTimeInterval(7200))
+        newTask.setDescription("После окончания гимназии с золотой медалью ни сам Врубель, ни его родители не помышляли о карьере художника")
+        taskService.updateExistingTask(existingTask, newTask)
+
+        let tasks = realm.objects(TaskModel.self)
+        let testTaskSaved = tasks.first
+        //считаю количество задач
+        XCTAssertEqual(tasks.count, 1)
+        //сравниваю данные
+        XCTAssertEqual(testTaskSaved?.getName(), "newTask", "Проблема с name") // ожидание нового имени
+        XCTAssertEqual(testTaskSaved?.getDateStart(), newTask.getDateStart(), "Проблема с date start")
+        XCTAssertEqual(testTaskSaved?.getDateFinish(), newTask.getDateFinish(), "Проблема с date finish")
+        XCTAssertEqual(testTaskSaved?.getDescription(), newTask.getDescription(), "Проблема с description")
+    }
+
+    func testUpdateExistingTask2() throws {
+        let existingTask = TaskModel()
         existingTask.setName("test-1")
         existingTask.setDateStart(Date())
         existingTask.setDateFinish(Date().addingTimeInterval(3600))
         existingTask.setDescription("Test Task 1")
         taskService.addNewTask(existingTask)
         
+        
         let newTask = TaskModel()
-
+        newTask.setId(UUID().uuidString)
         newTask.setName("newTask")
         newTask.setDateStart(Date().addingTimeInterval(3600))
         newTask.setDateFinish(Date().addingTimeInterval(7200))
         newTask.setDescription("После окончания гимназии с золотой медалью ни сам Врубель, ни его родители не помышляли о карьере художника")
+        
         taskService.updateExistingTask(existingTask, newTask)
-        print("ЭТО ИТОГ", taskService.getAllTasks())
+
+        let tasks = realm.objects(TaskModel.self)
+        let testTaskSaved = tasks.first
+        //считаю количество задач
+        XCTAssertEqual(tasks.count, 1)
+        //сравниваю данные
+        XCTAssertNotEqual(testTaskSaved?.getId(), newTask.getId(), "Проблема с ID")
+
+        XCTAssertEqual(testTaskSaved?.getDateStart(), newTask.getDateStart(), "Проблема с date start")
+        XCTAssertEqual(testTaskSaved?.getDateFinish(), newTask.getDateFinish(), "Проблема с date finish")
+        XCTAssertEqual(testTaskSaved?.getDescription(), newTask.getDescription(), "Проблема с description")
+    }
+    
+    func testDeleteTask1() throws {
+        let existingTask = TaskModel()
+        existingTask.setName("test-1")
+        existingTask.setDateStart(Date())
+        existingTask.setDateFinish(Date().addingTimeInterval(3600))
+        existingTask.setDescription("Test Task 1")
+        
+        taskService.addNewTask(existingTask)
+        taskService.deleteTask(existingTask)
         
         let tasks = realm.objects(TaskModel.self)
         let testTaskSaved = tasks.first
-        //посчитать количество задач
-        XCTAssertEqual(tasks.count, 1)
-        //сравнить данные
-//        XCTAssertEqual(testTaskSaved?.getName(), "test-1", "Проблема с name")
-//        XCTAssertEqual(testTaskSaved?.getDateStart(), newTask.getDateStart(), "Проблема с date start")
-//        XCTAssertEqual(testTaskSaved?.getDateFinish(), newTask.getDateFinish(), "Проблема с date finish")
-//        XCTAssertEqual(testTaskSaved?.getDescription(), newTask.getDescription(), "Проблема с description")
+        
+        XCTAssertEqual(tasks.count, 0)
+        
     }
     
+    func testDeleteTask2() throws {
+        let existingTask = TaskModel()
+        existingTask.setName("test-1")
+        existingTask.setDateStart(Date())
+        existingTask.setDateFinish(Date().addingTimeInterval(3600))
+        existingTask.setDescription("Test Task 1")
+        
+ 
+        taskService.deleteTask(existingTask)
+        
+        let tasks = realm.objects(TaskModel.self)
+        let testTaskSaved = tasks.first
+        
+        XCTAssertEqual(tasks.count, 0)
+    }
     
-    
-    
-    
-    
-
-
+    func testGetTasks1() throws {
+        let existingTask = TaskModel()
+        existingTask.setName("test-1")
+        existingTask.setDateStart(Date())
+        existingTask.setDateFinish(Date().addingTimeInterval(3600))
+        existingTask.setDescription("Test Task 1")
+        
+        taskService.addNewTask(existingTask)
+  
+        let tasks = realm.objects(TaskModel.self)
+        let testTaskSaved = tasks.first
+        
+        XCTAssertEqual(taskService.getAllTasks().count, 1)
+        XCTAssertEqual(taskService.getAllTasksQuantity(), 1)
+        
+    }
 }
