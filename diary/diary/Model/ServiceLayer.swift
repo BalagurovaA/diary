@@ -1,30 +1,6 @@
 import Foundation
 import RealmSwift
 
-//удаление бд
-//private init() {
-//    // Удаляем базу данных Realm
-//    let fileManager = FileManager.default
-//    let realmURL = Realm.Configuration.defaultConfiguration.fileURL!
-//
-//    do {
-//        try fileManager.removeItem(at: realmURL)
-//        print("Realm database deleted successfully.")
-//    } catch {
-//        print("Ошибка удаления Realm: \(error)")
-//    }
-//
-//    // Инициализируем Realm после удаления базы данных
-//    do {
-//        realm = try Realm()
-//    } catch {
-//        fatalError("Can't initialize Realm: \(error)")
-//    }
-//
-//    // Инициализируем массив задач
-//    tasks = []
-//}
-
 class TaskService {
     static let shared = TaskService()
      var realm: Realm

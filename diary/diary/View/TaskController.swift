@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 class TaskController: UIViewController {
-//инициализация
+    //инициализация
     //buttons
     let buttonExit = UIButton(type: .system)
     let buttonSave = UIButton(type: .system)
@@ -21,7 +21,7 @@ class TaskController: UIViewController {
     let labelEnd = UILabel()
     let labelName = UILabel()
     let labelDescr = UILabel()
-
+    
     var viewModelController: ViewModel
     var selectedTask: TaskModel?
     //замыкание для обновления таблицы
@@ -31,7 +31,7 @@ class TaskController: UIViewController {
         self.viewModelController = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -75,21 +75,21 @@ class TaskController: UIViewController {
         buttonSave.setTitle("Save", for: .normal)
         buttonSave.addTarget(self, action: #selector(savingTask), for: .touchUpInside)
     }
-
-        @objc private func savingTask() {
-            let newTask = TaskModel()
-            newTask.setId(UUID().uuidString)
-            newTask.setName(nameText.text ?? "")
-            newTask.setDescription(descriptionText.text ?? "")
-            newTask.setDateStart(startDate.date)
-            newTask.setDateFinish(finishDate.date)
+    
+    @objc private func savingTask() {
+        let newTask = TaskModel()
+        newTask.setId(UUID().uuidString)
+        newTask.setName(nameText.text ?? "")
+        newTask.setDescription(descriptionText.text ?? "")
+        newTask.setDateStart(startDate.date)
+        newTask.setDateFinish(finishDate.date)
+        
+        if let existingTask = selectedTask {
+            viewModelController.saveTask(newTask, existingTask)
             
-            if let existingTask = selectedTask {
-                viewModelController.saveTask(newTask, existingTask)
- 
-            } else {
-                viewModelController.saveTask(newTask, nil)
-            }
+        } else {
+            viewModelController.saveTask(newTask, nil)
+        }
         //обновление таблицы
         onTaskDeleted?()
         viewModelController.updateTaskForSelectedDate()
@@ -97,14 +97,8 @@ class TaskController: UIViewController {
     }
     
     private func updateSaveButtonState() {
-//        if startDate.date < finishDate.date {
-//            buttonSave.isEnabled = true
-//        } else {
-//            buttonSave.isEnabled = false
-//        }
-//        buttonSave.isEnabled =  startDate.date < finishDate.date
+        buttonSave.isEnabled =  startDate.date < finishDate.date
     }
-    
     
     //удаление задачи
     private func configureDeleteTask() {
@@ -124,7 +118,6 @@ class TaskController: UIViewController {
         }
         dismiss(animated: true, completion: nil)
     }
-    
     
     //название задачи
     private func configureNameTask() {

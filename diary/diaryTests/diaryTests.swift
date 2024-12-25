@@ -1,10 +1,3 @@
-//
-//  diaryTests.swift
-//  diaryTests
-//
-//  Created by Kristofer Sartorial on 12/1/24.
-//
-
 import XCTest
 import RealmSwift
 @testable import diary

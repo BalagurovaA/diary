@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         calendar.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
     }
     
-    //теперь selected date имеет значение
+    //передача значения в selectedDate
     @objc func dateChanged(_ send: UIDatePicker) {
         viewModelController.setSelectedDate(send.date)
         viewModelController.updateTaskForSelectedDate()

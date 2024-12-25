@@ -1,10 +1,3 @@
-//
-//  diaryUITests.swift
-//  diaryUITests
-//
-//  Created by Kristofer Sartorial on 12/1/24.
-//
-
 import XCTest
 
 final class diaryUITests: XCTestCase {
