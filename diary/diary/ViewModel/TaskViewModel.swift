@@ -45,9 +45,11 @@ class ViewModel {
             return []
         }
     
-        let endDate = startDate.addingTimeInterval(3600)
-        
-         let selectedTask = tasks.filter { task in
+        guard let endDate = Calendar.current.date(bySettingHour: index + 1, minute: 0, second: 0, of: selectedDate) else {
+         return []
+      }
+
+        let selectedTask = tasks.filter { task in
             let taskStartDate = task.getDateStart()
             let taskFinishDate = task.getDateFinish()
 
@@ -57,18 +59,30 @@ class ViewModel {
         return selectedTask
     }
     
- 
+    
+    func getTimeSlotsWithTasks() -> [TimeSlot] {
+        return timeSlots.map { timeSlot in
+            let index = timeSlots.firstIndex(of: timeSlot)!
+            let tasksInSlot = selectTasks(index)
+            return TimeSlot(time: timeSlot, tasks: tasksInSlot)
+        }
+    }
+    
+
     func timeTextOfCell(_ index: Int) -> String {
         let timeSlot = timeSlots[index]
         let tasksInSlot = selectTasks(index)
         
-        if tasksInSlot.isEmpty {
-            return timeSlot
-        } else {
+        var displayText = timeSlot
+        
+        if !tasksInSlot.isEmpty {
             let taskDescriptions = tasksInSlot.map { task in "\(task.getName())\n\(task.getDescription())" }
-            return "\(timeSlot)\n" + taskDescriptions.joined(separator: "\n")
+            displayText += "\n" + taskDescriptions.joined(separator: "\n")
         }
+        return displayText
     }
+    
+    
     
     //методы для делегатов
     func saveTask(_ newTask: TaskModel, _ exitingTask: TaskModel? ) {

@@ -6,7 +6,6 @@ class TaskService {
      var realm: Realm
     private var tasks: [TaskModel]
     
-    
     init() {
         do {
             realm = try Realm()

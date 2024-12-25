@@ -7,7 +7,6 @@ class ViewController: UIViewController {
     private let calendar = UIDatePicker()
     private var viewModelController = ViewModel()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -16,8 +15,9 @@ class ViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         tableView.reloadData()
+        
         configureCalendar()
         configureTable()
         tableView.reloadData()
@@ -28,6 +28,10 @@ class ViewController: UIViewController {
     @IBAction func createTask(_ sender: Any) {
         let taskController = TaskController(viewModel: viewModelController)
         taskController.modalPresentationStyle = .fullScreen
+
+        taskController.onTaskDeleted = { [weak self] in
+             self?.tableView.reloadData()
+         }
         present(taskController, animated: true, completion: nil)
     }
 
@@ -57,6 +61,9 @@ class ViewController: UIViewController {
     
     //ТАБЛИЦА
     private func configureTable() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TaskCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "NoTaskCell")
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
@@ -72,78 +79,63 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModelController.getTimeSlotsWithTasks().count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModelController.getQuantityTimeSlots()
+        let timeSlot = viewModelController.getTimeSlotsWithTasks()[section]
+        return timeSlot.tasks.count > 0 ? timeSlot.tasks.count : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath)
-        
-        cell.textLabel?.font = cell.textLabel?.font.withSize(16)
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = viewModelController.timeTextOfCell(indexPath.row)
-        
-        // Проверяем, есть ли задание в конкретной строке
-        let tasks = viewModelController.selectTasks(indexPath.row)
-        if !tasks.isEmpty {
-            cell.backgroundColor = .systemGray6
+        let timeSlot = viewModelController.getTimeSlotsWithTasks()[indexPath.section]
+    
+        if timeSlot.tasks.isEmpty {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NoTaskCell", for: indexPath)
+            return cell
         } else {
-            cell.backgroundColor = UIColor.white
+            let task = timeSlot.tasks[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
+            cell.textLabel?.text = "\(task.getName())\n \(task.getDescription())"
+            return cell
         }
-        
-        return cell
     }
 
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100.0
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let timeSlot = viewModelController.getTimeSlotsWithTasks()[section]
+        return timeSlot.time
     }
     
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        let selectedTask = viewModelController.selectTasks(indexPath.row).first
-
+        
+        let timeSlot = viewModelController.getTimeSlotsWithTasks()[indexPath.section]
+        let selectedTask = timeSlot.tasks[indexPath.row]
+        
         let taskController = TaskController(viewModel: viewModelController)
         taskController.selectedTask = selectedTask
-        
-        //Начало
-        var dateComponentsStart = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: calendar.date)
-        dateComponentsStart.hour = indexPath.row
-        dateComponentsStart.minute = 0
-    
-        guard let dateStart = Calendar.current.date(from: dateComponentsStart) else {
-            print("Не удалось создать дату")
-            return
-        }
-        
-        //Конец
-        var dateComponentsFinish = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: calendar.date)
 
-        dateComponentsFinish.hour = indexPath.row + 1
-        dateComponentsFinish.minute = 0
-    
-        guard let dateFinish = Calendar.current.date(from: dateComponentsFinish) else {
-            print("Не удалось создать дату")
-            return
-        }
-
-        taskController.startDate.date = dateStart
-        taskController.finishDate.date = dateFinish
-
+        //замыкание для обновления таблицы
         taskController.onTaskDeleted = { [weak self] in
             self?.tableView.reloadData()
         }
-
+   
         taskController.modalPresentationStyle = .fullScreen
         present(taskController, animated: true, completion: nil)
     }
-
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let timeSlot = viewModelController.getTimeSlotsWithTasks()[indexPath.section]
+        
+        // Проверяем, есть ли задача в ячейке
+        if timeSlot.tasks.indices.contains(indexPath.row) {
+            return indexPath
+        } else {
+            return nil
+        }
+    }
+
     
 }

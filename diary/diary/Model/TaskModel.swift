@@ -1,7 +1,6 @@
 import Foundation
 import RealmSwift
 
-
 class TaskModel: Object, Decodable {
     
     @objc dynamic private var id: String = UUID().uuidString
@@ -44,8 +43,8 @@ class TaskModel: Object, Decodable {
     required override init() {
         super.init()
     }
- 
     
+
     //геттеры для данных
     func getId() -> String {
         return id
@@ -84,7 +83,10 @@ class TaskModel: Object, Decodable {
     func setDescription(_ newDescription: String) {
         descrip = newDescription
     }
-    
 
-    
+}
+
+struct TimeSlot {
+    let time: String
+    let tasks: [TaskModel]
 }
