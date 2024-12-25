@@ -129,7 +129,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let timeSlot = viewModelController.getTimeSlotsWithTasks()[indexPath.section]
         
-        // Проверяем, есть ли задача в ячейке
         if timeSlot.tasks.indices.contains(indexPath.row) {
             return indexPath
         } else {

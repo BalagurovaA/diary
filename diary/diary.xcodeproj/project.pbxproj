@@ -16,7 +16,6 @@
 		FD3950772CFC80BE0039D3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD3950762CFC80BE0039D3FA /* Assets.xcassets */; };
 		FD39507A2CFC80BE0039D3FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD3950782CFC80BE0039D3FA /* LaunchScreen.storyboard */; };
 		FD3950852CFC80BF0039D3FA /* diaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3950842CFC80BF0039D3FA /* diaryTests.swift */; };
-		FD39508F2CFC80BF0039D3FA /* diaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */; };
 		FD3950912CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */; };
 		FD4242192D10562200EA3243 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD4242182D10562200EA3243 /* RealmSwift */; };
 		FD7815F92D1C1F270009B3E5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD7815F82D1C1F270009B3E5 /* RealmSwift */; };
@@ -84,7 +83,6 @@
 		FD3950802CFC80BF0039D3FA /* diaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = diaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD3950842CFC80BF0039D3FA /* diaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diaryTests.swift; sourceTree = "<group>"; };
 		FD39508A2CFC80BF0039D3FA /* diaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = diaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diaryUITests.swift; sourceTree = "<group>"; };
 		FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FDED34232D119C9200317530 /* firstData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = firstData.json; sourceTree = SOURCE_ROOT; };
 		FDF043582D15972400E8C2F1 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 		FD39508D2CFC80BF0039D3FA /* diaryUITests */ = {
 			isa = PBXGroup;
 			children = (
-				FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */,
 				FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */,
 			);
 			path = diaryUITests;
@@ -376,7 +373,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD3950912CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift in Sources */,
-				FD39508F2CFC80BF0039D3FA /* diaryUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
