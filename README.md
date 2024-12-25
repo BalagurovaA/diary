@@ -7,15 +7,17 @@ Diary - мобильное приложение для возможности у
 <table>
   <tr>
     <td>
-      <img src="./screenshots/mainDisplay.png" alt="Main Display" width="400" />
+      <img src="./screenshots/mainDisplay.png" alt="Main Display" width="300" />
     </td>
     <td>
-      <img src="./screenshots/newTaskDisplay.png" alt="New Task Display" width="400" />
+      <img src="./screenshots/newTaskDisplay.png" alt="New Task Display" width="300" />
+    </td>
+    <td>
+      <img src="./screenshots/displayActivity.gif" alt="Display Activity" width="300" />
     </td>
   </tr>
 </table>
 
-<br> <img src="./screenshots/displayActivity.gif" alt="fsm_graph" width="400" />
 - создание задачи
 - удаление задачи
 - редактирование задачи
