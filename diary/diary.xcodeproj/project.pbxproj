@@ -19,6 +19,8 @@
 		FD39508F2CFC80BF0039D3FA /* diaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD39508E2CFC80BF0039D3FA /* diaryUITests.swift */; };
 		FD3950912CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3950902CFC80BF0039D3FA /* diaryUITestsLaunchTests.swift */; };
 		FD4242192D10562200EA3243 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD4242182D10562200EA3243 /* RealmSwift */; };
+		FD7815F92D1C1F270009B3E5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD7815F82D1C1F270009B3E5 /* RealmSwift */; };
+		FD7815FA2D1C1F270009B3E5 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = FD7815F82D1C1F270009B3E5 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD86E93B2D186A9D00AB76C0 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD86E93A2D186A9D00AB76C0 /* RealmSwift */; };
 		FD86E93D2D186A9D00AB76C0 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = FD86E93A2D186A9D00AB76C0 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FDED34242D119C9200317530 /* firstData.json in Resources */ = {isa = PBXBuildFile; fileRef = FDED34232D119C9200317530 /* firstData.json */; };
@@ -44,6 +46,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		FD7815F62D1C1B850009B3E5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FD7815FA2D1C1F270009B3E5 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD86E93C2D186A9D00AB76C0 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD7815F92D1C1F270009B3E5 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +259,7 @@
 				FD3950862CFC80BF0039D3FA /* Sources */,
 				FD3950872CFC80BF0039D3FA /* Frameworks */,
 				FD3950882CFC80BF0039D3FA /* Resources */,
+				FD7815F62D1C1B850009B3E5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -252,6 +267,9 @@
 				FD39508C2CFC80BF0039D3FA /* PBXTargetDependency */,
 			);
 			name = diaryUITests;
+			packageProductDependencies = (
+				FD7815F82D1C1F270009B3E5 /* RealmSwift */,
+			);
 			productName = diaryUITests;
 			productReference = FD39508A2CFC80BF0039D3FA /* diaryUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -696,6 +714,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		FD4242182D10562200EA3243 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD4242152D10562200EA3243 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		FD7815F82D1C1F270009B3E5 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FD4242152D10562200EA3243 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;

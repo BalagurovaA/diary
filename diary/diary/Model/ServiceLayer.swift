@@ -69,9 +69,14 @@ class TaskService {
     func getTaskWithSpecificDate(_ selectedDate: Date) -> [TaskModel] {
         let dateStart = Calendar.current.startOfDay(for: selectedDate)
         let dateEnd = Calendar.current.date(byAdding: .day, value: 1, to: dateStart)!
-        let tasksRealm = realm.objects(TaskModel.self).filter {$0.getDateStart() >= dateStart}.filter { $0.getDateFinish() < dateEnd }
+        
+        let tasksRealm = realm.objects(TaskModel.self).filter {
+            $0.getDateStart() < dateEnd && $0.getDateFinish() > dateStart
+        }
+        
         return Array(tasksRealm)
     }
+
     
 
     func getDataFromJSON() {
