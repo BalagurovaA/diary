@@ -95,22 +95,47 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 100.0
     }
     
-    //    выбор ячейки, открытие task controller
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let selectedTask = viewModelController.selectTasks(indexPath.row).first
-        
-        
+
         let taskController = TaskController(viewModel: viewModelController)
         taskController.selectedTask = selectedTask
         
+        //Начало
+        var dateComponentsStart = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: calendar.date)
+        dateComponentsStart.hour = indexPath.row
+        dateComponentsStart.minute = 0
+    
+        guard let dateStart = Calendar.current.date(from: dateComponentsStart) else {
+            print("Не удалось создать дату")
+            return
+        }
+        
+        //Конец
+        var dateComponentsFinish = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: calendar.date)
+
+        dateComponentsFinish.hour = indexPath.row + 1
+        dateComponentsFinish.minute = 0
+    
+        guard let dateFinish = Calendar.current.date(from: dateComponentsFinish) else {
+            print("Не удалось создать дату")
+            return
+        }
+
+        taskController.startDate.date = dateStart
+        taskController.finishDate.date = dateFinish
+
         taskController.onTaskDeleted = { [weak self] in
             self?.tableView.reloadData()
         }
-        
+
         taskController.modalPresentationStyle = .fullScreen
-        present(taskController,animated: true, completion: nil)
-        tableView.reloadData()
+        present(taskController, animated: true, completion: nil)
     }
+
+    
+    
 }

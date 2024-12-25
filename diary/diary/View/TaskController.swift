@@ -151,7 +151,7 @@ class TaskController: UIViewController {
         labelStart.frame = CGRect(x: 25, y: 180, width: 280, height: 50)
         view.addSubview(labelStart)
         
-        startDate.date = selectedTask?.getDateStart() ?? Date()
+//        startDate.date = selectedTask?.getDateStart() ?? Date()
         startDate.locale = .current
         startDate.datePickerMode = .dateAndTime
         startDate.preferredDatePickerStyle = .compact
@@ -176,7 +176,7 @@ class TaskController: UIViewController {
         labelEnd.frame = CGRect(x: 25, y: 230, width: 280, height: 50)
         view.addSubview(labelEnd)
         
-        finishDate.date = selectedTask?.getDateFinish() ?? Date()
+//        finishDate.date = selectedTask?.getDateFinish() ?? Date()
         finishDate.locale = .current
         finishDate.datePickerMode = .dateAndTime
         finishDate.preferredDatePickerStyle = .compact
