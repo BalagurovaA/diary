@@ -3,9 +3,19 @@
 Diary - мобильное приложение для возможности управления ежедневными делами. 
 
 ## Функционал 
-<br> <img src="./screenshots/mainDisplay.png" alt="fsm_graph" width="400" /> 
-<br> <img src="./screenshots/newTaskDisplay.png" alt="fsm_graph" width="400" />
 
+<table>
+  <tr>
+    <td>
+      <img src="./screenshots/mainDisplay.png" alt="Main Display" width="400" />
+    </td>
+    <td>
+      <img src="./screenshots/newTaskDisplay.png" alt="New Task Display" width="400" />
+    </td>
+  </tr>
+</table>
+
+<br> <img src="./screenshots/displayActivity.gif" alt="fsm_graph" width="400" />
 - создание задачи
 - удаление задачи
 - редактирование задачи
