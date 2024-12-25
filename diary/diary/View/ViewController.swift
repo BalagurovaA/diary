@@ -86,10 +86,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.font = cell.textLabel?.font.withSize(16)
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = viewModelController.timeTextOfCell(indexPath.row)
-    
+        
+        // Проверяем, есть ли задание в конкретной строке
+        let tasks = viewModelController.selectTasks(indexPath.row)
+        if !tasks.isEmpty {
+            cell.backgroundColor = .systemGray6
+        } else {
+            cell.backgroundColor = UIColor.white
+        }
+        
         return cell
     }
-    
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
